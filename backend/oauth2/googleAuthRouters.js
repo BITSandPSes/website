@@ -34,7 +34,7 @@ router.get('/auth/google/redirect', async (req, res) => {
       const token = await user.generateAuthToken();
 
       res.cookie('jwt', token);
-      res.redirect('/');
+      res.redirect('https://bitsandpses-front.herokuapp.com/');
     } catch (error) {
       console.log(error);
       res.status(400).send(error);
@@ -45,7 +45,7 @@ router.get('/auth/google/redirect', async (req, res) => {
       await user.save();
       const token = await user.generateAuthToken();
       res.cookie('jwt', token);
-      res.redirect('/');
+      res.redirect('https://bitsandpses-front.herokuapp.com/');
     } catch (error) {
       console.log(error);
       res.status(400).send(error);
