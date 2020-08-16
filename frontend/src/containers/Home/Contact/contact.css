@@ -1,0 +1,80 @@
+.contact-big-box {
+    background-color: #EFEFEF;
+    border-radius: 30px;
+    box-shadow: 0px 5px 8px -5px rgba(0,0,0,0.75);
+}
+
+.blue-contact-box {
+    background-color: white;
+    border-radius: 20px;
+}
+
+.green-contact-box {
+    background-color: white;
+    border-radius: 20px;
+}
+
+
+.contact-picture {
+    padding-top: 20px;
+    width: 90%;
+}
+
+.contact-name-blue {
+    font-family: 'Ubuntu' , serif;
+    font-weight: 400 !important;
+    color: #0353a4;
+}
+
+.contact-name-green {
+    font-family: 'Ubuntu' , serif;
+    font-weight: 400 !important;
+    color: #2a9134;
+}
+
+.contact-info {
+    font-family: 'Ubuntu', serif;
+    font-weight: 300 !important;
+    color: #403D39 !important;
+}
+
+@media screen and (max-width: 1200px) {
+    .contact-info {
+        font-size: 0.9rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .contact-big-box {
+        margin-top: 30vh;
+    }
+
+    .contact-info {
+        font-size: 1rem;
+    }
+
+    .contact-picture {
+        max-height: 250px;
+        width: auto;
+    }
+}
+
+.contact-disclaimer {
+    font-family: 'Ubuntu', serif;
+    font-weight: 300 !important;
+    color: #CCC5b9;
+}
+
+.contact-disc-column {
+    background-color: white;
+    border-radius: 25px;
+}
+
+.contact-link {
+    text-decoration: none !important;
+    color: #403D39 !important;
+}
+
+.contact-link:hover {
+    color: #2a9134 !important;
+}

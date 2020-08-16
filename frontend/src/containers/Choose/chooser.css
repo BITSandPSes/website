@@ -1,0 +1,157 @@
+.web-name {
+    font-family: 'Bree Serif', serif;
+    font-size: 4vw;
+    margin-top: 8vh;
+    border-bottom: 1px ridge;
+    background-color: white;
+}
+
+.web-subname {
+    font-family: 'Ubuntu', serif;
+    font-size: 1.75vw;
+    font-weight: 300;
+    background-color: white;
+    border-radius: 7px;
+}
+
+@media screen and (max-width: 1000px) {
+    .web-name {
+        font-family: 'Bree Serif', serif;
+        font-size: 7vw;
+        margin-top: 14vh;
+    }
+
+    .web-subname {
+        font-size: 3.1vw;
+    }
+
+    .chooser-button {
+        height: 125px;
+    }
+
+    .disclaimer {
+        margin-top: 16vh;
+    }
+
+    .small-button-cont {
+        margin-top: -2px;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .web-name {
+        font-family: 'Bree Serif', serif;
+        font-size: 9vw;
+        margin-top: 16vh;
+    }
+
+    .web-subname {
+        font-size: 4.2vw;
+    }
+
+    .chooser-button {
+        height: 100px;
+    }
+
+    .small-button-cont {
+        margin-top: 9px;
+    }
+
+    .disclaimer {
+        margin-top: 18vh;
+    }
+
+}
+
+
+.green {
+    color: #2A9134;
+}
+
+.green-bg {
+    background-color: #2A9134 !important;
+}
+
+.blue-bg {
+    background-color: #0353A4 !important;
+}
+
+.chooser-button {
+    width: 20vw;
+    height: 8.2vw;
+    min-height: 70px;
+    min-width: 100px;
+    border-radius: 100px !important;
+}
+
+.blue {
+    color: #0353A4;
+}
+
+.dark-grey {
+    color: #403D39;
+}
+
+.bg-pattern {
+    background-image: url(../../shared/ps\ bg\ pattern.png);
+    background-repeat: repeat;
+}
+
+.chooser-buttons {
+    margin-top: 12vh;
+}
+
+.button-gap {
+    width: 10vw !important;
+}
+
+.large-button-title {
+    color: white !important;
+    font-family: 'Bree Serif', serif;
+    font-size: 3vw !important;
+}
+
+.large-button-sub {
+    margin-top: 1vw;
+    color: white !important;
+    font-family: 'Ubuntu' , serif;
+    font-weight: 300;
+    font-size: 1vw;
+}
+
+.small-button-cont {
+    color: white !important;
+    font-family: 'Bree Serif', serif;
+    font-size: 5vw;
+}
+
+.disclaimer {
+    color: #CCC5B9;
+    background-color: white;
+    font-size: 1rem;
+    font-family: 'Ubuntu', serif;
+    font-weight: 300;
+    margin-top: 12vh;
+}
+
+.elective-button-row {
+    margin-top: 10vh !important;
+}
+
+.elective-button {
+    text-decoration: none !important;
+    font-family: 'Bree Serif', serif;
+    font-size: 2rem !important;
+    color: #0353A4 !important;
+    background-color: #EFEFEF !important;
+    border-radius: 100px !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    width: 100% !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.elective-button:hover {
+    color: #2A9134 !important;
+}

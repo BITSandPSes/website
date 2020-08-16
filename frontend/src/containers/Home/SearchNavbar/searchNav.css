@@ -1,0 +1,32 @@
+.row-search {
+    background-color: #242424;
+    padding-top: 15px ;
+}
+
+.search-nav {
+    border-radius: 50px !important;
+    border-width: 0px !important;
+    font-family: 'Ubuntu', serif;
+    font-weight: 300 !important;
+}
+
+.search-nav-button-blue {
+    border-radius: 50px !important;
+    border-width: 0px !important;
+    font-family: 'Ubuntu', serif;
+    font-weight: 300 !important;
+    background-color: #0353A4 !important;
+}
+
+.search-nav-button-green {
+    border-radius: 50px !important;
+    border-width: 0px !important;
+    font-family: 'Ubuntu', serif;
+    font-weight: 300 !important;
+    background-color: #2A9134 !important;
+}
+
+.zer {
+    z-index: 1 !important;
+    margin-top: 75px !important;
+}

@@ -1,0 +1,48 @@
+.comment-box{
+    background-color: white;
+    border-radius: 20px !important;
+    border-width: 0px !important;
+}
+
+.author-name {
+    font-family: 'Ubuntu', serif;
+    font-family: 400;
+    color: #0353A4;
+}
+
+.comment-content {
+    font-family: 'Ubuntu', serif;
+    font-family: 300;
+    color: #403D39;
+}
+
+.reply-button {
+    text-decoration: none !important;
+    font-family: 'Ubuntu', serif;
+    font-weight: 400;
+    color: #403D39 !important;
+    background-color: transparent !important;
+    border-width: 0px !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.post-reply-input {
+    border-radius: 50px !important;
+    border-width: 0px !important;
+    font-family: 'Ubuntu', serif;
+    font-weight: 300 !important;
+    color: #403D39;
+    outline: none !important;
+    box-shadow: none !important;
+    padding-left: 5px;
+}
+
+.post-button {
+    background-color: #2A9134 !important;
+    border-radius: 50px !important;
+    font-family: 'Ubuntu', serif;
+    font-weight: 300 !important;
+    border-width: 0px !important;
+    width: 100% !important;
+}

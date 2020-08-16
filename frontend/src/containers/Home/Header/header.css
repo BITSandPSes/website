@@ -1,0 +1,148 @@
+.station-toggle {
+    padding: 10px 0px;
+}
+
+.white-bg-navbar {
+    background-color: white !important;
+    box-shadow: 0px -6px 24px -1px rgba(0,0,0,0.75);
+    z-index: 2 !important;
+    min-height: 75px !important
+}
+
+.navbrand-title {
+    font-family: 'Bree Serif', serif ;
+    font-size: 1.95vw;
+}
+
+.toggler-background {
+    background-color: #403D39;
+    border-radius: 25px !important;
+}
+
+.toggle-head-blue {
+    background-color: #0353A4 !important;
+    border-radius: 100px !important;
+    box-shadow: none !important;
+    border-width: 0px !important;
+    margin: 5px;
+    font-family: 'Bree Serif', serif;
+    font-size: 1vw !important;
+}
+
+.toggle-head-green {
+    background-color: #2A9134 !important;
+    border-radius: 100px !important;
+    box-shadow: none !important;
+    border-width: 0px !important;
+    margin: 5px;
+    font-family: 'Bree Serif', serif;
+    font-size: 1vw !important;
+}
+
+.toggle-head-grey {
+    background-color: #403D39 !important;
+    border-radius: 100px !important;
+    box-shadow: none !important;
+    border-width: 0px !important;
+    color: white !important;
+    margin: 5px;
+    font-family: 'Bree Serif', serif;
+    font-size: 1vw !important;
+}
+
+.nav-toggler {
+    margin-left: 10px;
+}
+
+@media screen and (max-width: 900px) {
+    .navbrand-title {
+        font-size: 2.5vw;
+    }
+
+    .toggle-head-blue {
+        font-size: 2.2vw !important;
+    }
+
+    .toggle-head-green {
+        font-size: 2.2vw !important;
+    }
+
+    .toggle-head-grey {
+        font-size: 2.2vw !important;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .navbrand-title {
+        font-size: 3vw;
+    }
+
+    .toggle-head-blue {
+        font-size: 2.7vw !important;
+    }
+
+    .toggle-head-green {
+        font-size: 2.7vw !important;
+    }
+
+    .toggle-head-grey {
+        font-size: 2.7vw !important;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .navbrand-title {
+        font-size: 5vw;
+    }
+
+    .toggle-head-blue {
+        font-size: 3.2vw !important;
+    }
+
+    .toggle-head-green {
+        font-size: 3.2vw !important;
+    }
+
+    .toggle-head-grey {
+        font-size: 3.2vw !important;
+    }
+}
+
+.nav-linker-green {
+    font-family: 'Bree Serif', serif !important;
+    font-size: 1.2rem !important;
+    text-decoration: none !important;
+    color: #403D39;
+    background-color: transparent !important;
+    border-width: 0px !important;
+}
+
+.nav-linker-blue {
+    font-family: 'Bree Serif', serif !important;
+    font-size: 1.2rem !important;
+    text-decoration: none !important;
+    color: #403D39;
+    background-color: transparent !important;
+    border-width: 0px !important;
+}
+
+.nav-linker-green:hover {
+    color: #2A9134;
+}
+
+.nav-linker-blue:hover {
+    color: #0353A4;
+}
+
+.nav-linker-blue:active {
+    color: #0353A4 !important;
+}
+
+.nav-linker-green:active {
+    color: #2A9134 !important;
+}
+
+.nav-items {
+    margin: 0px 0.8rem;
+}
+

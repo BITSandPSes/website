@@ -1,0 +1,28 @@
+.footer-row {
+    margin-top: 70px;
+    margin-bottom: 30px;
+}
+
+.footer-title {
+    font-family: 'Bree Serif', serif;
+}
+
+.footer-sub {
+    font-family: 'Ubuntu', serif;
+    margin-top: 5px;
+    color: #403D39 ;
+    font-weight: 200;
+}
+
+.footer-links {
+    margin-top: 10px;
+    font-size: 2em;
+}
+
+.footer-link {
+    color: #403D39 !important;
+}
+
+.footer-link:hover {
+    color: #0353A4 !important;
+}

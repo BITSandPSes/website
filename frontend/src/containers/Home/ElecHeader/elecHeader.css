@@ -1,0 +1,59 @@
+.white-bg-navbar-elec {
+    background-color: white !important;
+    box-shadow: 0px -6px 24px -1px rgba(0,0,0,0.75);
+    z-index: 2 !important;
+    min-height: 65px !important;
+}
+
+.navbrand-title {
+    font-family: 'Bree Serif', serif ;
+    font-size: 1.95vw;
+}
+
+.nav-toggler {
+    margin-left: 10px;
+}
+
+@media screen and (max-width: 900px) {
+    .navbrand-title {
+        font-size: 2.5vw;
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .navbrand-title {
+        font-size: 3vw;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .navbrand-title {
+        font-size: 5vw;
+    }
+}
+
+.nav-linker {
+    font-family: 'Bree Serif', serif !important;
+    font-size: 1.2rem !important;
+    text-decoration: none !important;
+    color: #403D39;
+    background-color: transparent !important;
+    border-width: 0px !important;
+}
+
+.nav-linker:hover {
+    color: #2A9134;
+}
+
+.nav-linker:active {
+    color: #2A9134 !important;
+}
+
+.nav-items {
+    margin: 0px 0.8rem;
+}
+
+.navbrand-font {
+    font-family: 'Bree Serif', serif;
+    color: #403D39;
+}

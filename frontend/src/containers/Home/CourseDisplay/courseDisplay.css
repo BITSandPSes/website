@@ -1,0 +1,109 @@
+.row-content {
+    padding: 100px 0px;
+}
+
+.heading { 
+    padding-bottom: 30px;
+}
+
+.no-comment {
+    font-family: 'Ubuntu', serif;
+    color: #C0C0C0;
+    font-weight: 300;
+}
+
+.post-comment-input {
+    border-radius: 50px !important;
+    border-width: 0px !important;
+    font-family: 'Ubuntu', serif;
+    font-weight: 300 !important;
+    color: #403D39;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.commenter {
+    padding-bottom: 3px;
+    padding-top: 3px;
+}
+
+.sub-heading {
+    color: white;
+    background-color: #403D39;
+    border-radius: 10px !important;
+    font-family: 'Bree Serif', serif;
+    padding: 5px 0px;
+}
+
+.cg-card {
+    height: 225px !important;
+    margin-bottom: 20px;
+}
+
+.discussion-container {
+    background-color: #EFEFEF;
+    border-radius: 20px !important;
+}
+
+.envelope-sd {
+    margin-top: 142px;
+}
+
+.course-heading {
+    background-color: white;
+    border-radius: 10px !important;
+    box-shadow: 0px 5px 8px -5px rgba(0,0,0,0.75);
+    font-family: 'Bree Serif', serif;
+    color: #0353A4;
+}
+
+.location-heading {
+    color: #403D39;
+}
+
+.post-button {
+    background-color: #2A9134 !important;
+    border-radius: 50px !important;
+    font-family: 'Ubuntu', serif;
+    font-weight: 300 !important;
+    border-width: 0px !important;
+    width: 100% !important;
+}
+
+.course-description {
+    background-color: white;
+    border-width: 12px !important;
+    border-color: #403D39 !important;
+    border-radius: 20px !important;
+    border-style: solid 
+}
+
+.description-header {
+    color: #2A9134;
+    font-family: 'Ubuntu', serif;
+    font-weight: 500 !important;
+    font-size: x-large;
+}
+
+.description-body {
+    color: #403D39;
+    font-family: 'Ubuntu', serif;
+    font-weight: 400 !important;
+    font-size: x-large;
+}
+
+@media screen and (max-width: 768px) {
+    .description-header {
+        font-size: larger;
+        font-weight: 400 !important;
+    }
+
+    .description-body {
+        font-size: larger;
+        font-weight: 300 !important;
+    }
+}
+
+.profs-names {
+    width: 100% !important;
+}
