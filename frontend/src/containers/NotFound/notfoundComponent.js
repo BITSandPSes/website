@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
+//all invalid urls are redirected to this component
 function Notfound () {
   return(
     <div>

@@ -2,19 +2,24 @@ import React from 'react';
 import './chooser.css';
 import { Link, Redirect } from 'react-router-dom';
 
+//the website should be navigatable through url sharing. All base url cases will
+//be diverted to this component.
+//website has 3 sub-parts. 1 for ps1, 2 for ps2, 3 for electives. If user has ever visited the 
+//website in past, base url redirects to last used sub-part of the website. Otherwise, chooser helps in selecting them one.
+//user's current sub-part is always stored and updated in the localStorage.  
 function Choose () {
-  const storedChoice = parseInt(window.localStorage.getItem("stationNo"));
-  if(storedChoice === 1 || storedChoice === 2 || storedChoice === 3 ) {
+  const storedChoice = parseInt(window.localStorage.getItem("stationNo"));  //fetch user's last used sub-part of website
+  if(storedChoice === 1 || storedChoice === 2 || storedChoice === 3 ) {     //validation for redirecting to sub-part's home page
     return(
       <Redirect to =  { "/" + storedChoice } />
     );
   }
-  else {
-    return(
+  else {                            //if not found in localStorage, render Chooser component
+    return(          
       <div className = "bg-pattern">
         <div class = "container">
           <div class = "row justify-content-center">
-            <h1 className = "web-name">
+            <h1 className = "web-name">                    
               <span className = "green">BITS</span>
               <span className = "dark-grey">and</span>
               <span className = "blue">PS</span>
@@ -23,7 +28,7 @@ function Choose () {
           </div>
           <div class = "row justify-content-center">
             <h1 className = "web-subname dark-grey">
-              might save you from the factories
+              might save you from the factories           
             </h1>
           </div>
           <div className = "chooser-buttons row justify-content-center">

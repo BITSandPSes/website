@@ -1,25 +1,26 @@
 import React, { Component } from 'react';
 import "./home.css";
-import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
-import NotFound from '../NotFound/notfoundComponent';
-import Header from './Header/headerComponent';
-import Homed from './Homed/homedComponent';
-import StationDisplay from './StationDetails/stationDisplayComponent';
-import ElecHomed from './ElecHomed/elechomedComponent';
-import CourseDisplay from './CourseDisplay/courseDisplayComponent';
-import ElecHeader from './ElecHeader/elecHeaderComponent';
-import Contact from './Contact/contactComponent';
-import Footer from './Footer/footerComponent';
+import { Route, Switch, Redirect } from 'react-router-dom';
+import NotFound from '../NotFound/notfoundComponent';  
+import Header from './Header/headerComponent'; //header component for ps stations sub-parts
+import Homed from './Homed/homedComponent'; //home component for ps stations sub-parts
+import StationDisplay from './StationDetails/stationDisplayComponent'; //specific ps station details component
+import ElecHomed from './ElecHomed/elechomedComponent'; //home component for electives sub-part
+import CourseDisplay from './CourseDisplay/courseDisplayComponent'; //specific course details component
+import ElecHeader from './ElecHeader/elecHeaderComponent'; //header component for electives sub-part
+import Contact from './Contact/contactComponent'; //contact us page
+import Footer from './Footer/footerComponent'; //footer component 
 
 class Home extends Component {
   constructor(props) {
     super(props);
   }
   
+  
   render() {
-    let stationNo = parseInt(this.props.match.params.stationNo);
-    window.localStorage.setItem("stationNo",stationNo.toString(10));
-    if(stationNo === 1 || stationNo === 2) {
+    let stationNo = parseInt(this.props.match.params.stationNo);   //client's choice for sub-part is taken out from url
+    window.localStorage.setItem("stationNo",stationNo.toString(10)); //sub-part choice updated in localStorage
+    if(stationNo === 1 || stationNo === 2) {     //if ps stations want to be viewed
       return(
         <div>
           <Header urlinfo = {this.props.match} />
@@ -33,7 +34,7 @@ class Home extends Component {
         </div>
       );
     }
-    if( stationNo === 3) {
+    if( stationNo === 3) {                //if electives want to be viewed
       return(
         <div>
           <ElecHeader urlinfo = {this.props.match} />
@@ -47,7 +48,7 @@ class Home extends Component {
         </div>
       );
     }
-    else {
+    else {                              //if client enters url containing anything apart from 1,2 or 3, trigger notFound
       return(
         <Route component = {NotFound} />
       );

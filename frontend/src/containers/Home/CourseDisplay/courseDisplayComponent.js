@@ -3,13 +3,13 @@ import './courseDisplay.css';
 import NotFound from '../../NotFound/notfoundComponent';
 import { FormGroup, Form, Input, Button} from 'reactstrap';
 import axios from 'axios';
-import RenderComment from './courseComments/courseComments';
+import RenderComment from './courseComments/courseComments'; //component to display each comment with its replies
 import { withRouter } from 'react-router-dom';
-import SearchBar from '../searchCourseNav/searchCourseNavComponent';
-import baseUrl from '../../../baseUrl';
+import SearchBar from '../searchCourseNav/searchCourseNavComponent'; //component that allows to search right from course page
+import baseUrl from '../../../baseUrl';   //for directing requests to backend
 
-function RenderComments ({list, authorlist, courseSlug}) {
-  if(!list || list.length === 0) {
+function RenderComments ({list, authorlist, courseSlug}) {  //to render all comments in discussion container
+  if(!list || list.length === 0) { 
     return(
       <div className = "col-12">
         <h4 className = "p-4 no-comment">No comments</h4>
@@ -31,7 +31,7 @@ function RenderComments ({list, authorlist, courseSlug}) {
       <div className = "col-12 pt-1">
         { list.map((comment) => {
           return(
-            <RenderComment 
+            <RenderComment  //component to display each comment with its replies
             key = {comment._id} 
             comment = {comment} 
             authorlist = {authorlist}
@@ -49,37 +49,36 @@ class CourseDisplay extends Component {
     this.handleCommentChange = this.handleCommentChange.bind(this);
     this.handleCommentSubmit = this.handleCommentSubmit.bind(this);
     this.state = {
-      courseDetails: {
-        course: {
+      courseDetails: {                //structure defined here to prevent initial callback failure
+        course: {                     //promise updates and fills this object
           title: null,
           discussion: []
         },
         users: []
       },
-      courseFound: true,
-      commentField: null,
-      courseDesc: {
-        lectures: []
+      courseFound: true,              //boolean to store whether courseSlug in url is found or not
+      commentField: null,             //stores and updates comment typed by the user after every change 
+      courseDesc: {                   //stores all course data fetched from timetable api
+        lectures: []                  //structure defined here to prevent initial callback failure
       }
     }
   }
   
-  async componentDidMount() {
-    console.log(this.props.match.params.courseSlug);
-    const query = this.props.match.params.courseSlug;
+  async componentDidMount() { 
+    const query = this.props.match.params.courseSlug;   //extracting courseSlug from url 
     try {
-      const response = await fetch( baseUrl + '/api/course/' + query);
-      if(response.ok) {
-        const json = await response.json();
+      const response = await fetch( baseUrl + '/api/course/' + query);  //fetching all the course details thru backend
+      if(response.ok) {                                    
+        const json = await response.json(); 
         console.log(json);
         this.setState({
-          courseDetails: json,
+          courseDetails: json,        //updating courseDetails
           courseFound: true
         });
       }
       else if(response.status === 404) {
         this.setState({
-          courseFound: false
+          courseFound: false          //redirects to not found component on re-render
         })
       }
       else {
@@ -90,18 +89,19 @@ class CourseDisplay extends Component {
         });
         throw error;
       }
-
+      
+      //course details from timetable api are fetched
       const fresponse = await fetch('https://timetablevisualiser-api.herokuapp.com/CourseData?course_number=' + this.state.courseDetails.course.number);
       if(fresponse.ok) {
         const json = await fresponse.json();
         console.log(json);
         this.setState({
-          courseDesc: json
+          courseDesc: json           //updates courseDesc
         });
       }
       else if(fresponse.status === 404) {
         this.setState({
-          courseFound: false
+          courseFound: false        //redirects to not found component on re-render
         });
       }
       else {
@@ -117,19 +117,19 @@ class CourseDisplay extends Component {
     }
   }
 
-  handleCommentChange = (event) => {
+  handleCommentChange = (event) => {      //on every change in input ,this is triggered to store the updated comment in state
     this.setState({
       commentField: event.target.value
     });
   };
 
-  handleCommentSubmit = async e => {
+  handleCommentSubmit = async e => {      //triggers every time client hits "post Comment"
     e.preventDefault();
-    if(document.cookie.split(';').some((item) => item.trim().startsWith('jwt='))) {
+    if(document.cookie.split(';').some((item) => item.trim().startsWith('jwt='))) { //checking whether client has logged in 
       const cookies = document.cookie.split('; ');
-      const value = cookies.find(item => item.startsWith('jwt')).split('=')[1];
+      const value = cookies.find(item => item.startsWith('jwt')).split('=')[1];  //extracting bearer token from login cookie
       console.log(value);
-      const response = await axios({
+      const response = await axios({     //posting the comment request on backend
         method: 'post',
         url: "/api/course/" + this.props.match.params.courseSlug + "/comment" ,
         headers: {
@@ -140,24 +140,22 @@ class CourseDisplay extends Component {
         }
       });
       if(response.status === 200) {
-        window.location.reload();
+        window.location.reload();    //reload tha page to show new updated comment 
       }
       else {
         alert('Error ' + response.status + ': ' + response.statusText);
       }
     }
-    else {
+    else {             //if client has not logged in
       alert("you must be logged in to comment on stations.");
     }
   }
 
   render() {
-    console.log(this.props);
-    console.log(this.state.courseDesc);
-    window.localStorage.setItem("stationNo", "3");
-    if(this.state.courseFound === true) {
-      let professors = [];
-      this.state.courseDesc.lectures.forEach((section) => { 
+    window.localStorage.setItem("stationNo", "3");    
+    if(this.state.courseFound === true) {   //check if course has been found (true default value so that notfound isnt shown while page reloads)
+      let professors = [];   
+      this.state.courseDesc.lectures.forEach((section) => {    //finding all unique profs currently taking the course
         let counter = 3;
         const substrings = section.split(",");
         while(counter < substrings.length) {
@@ -165,10 +163,10 @@ class CourseDisplay extends Component {
           counter++;
         } 
       });
-      let uniprofs = [...new Set(professors)];
-      let uniprofstring = "";
+      let uniprofs = [...new Set(professors)];    //removes repetition of same names from array
+      let uniprofstring = ""; 
       let count = 0;
-      while( count < uniprofs.length )
+      while( count < uniprofs.length )      //creating string for display from professors array
       {
         if( count !== 0) {
           uniprofstring = uniprofstring + ", ";

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import './contact.css';
 
-// const m = require("../../../shared/m green.png");
-// const p = require("../../../shared/p blue.png");
+// const m = require("../../../shared/m green.png");  wrong images need to be replaced
+// const p = require("../../../shared/p blue.png");   
 
 class Contact extends Component {
   render() {
