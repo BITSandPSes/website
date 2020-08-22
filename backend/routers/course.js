@@ -3,23 +3,6 @@ const router = new express.Router();
 const auth = require('../middleware/auth');
 const Course = require('../models/course');
 
-// get all courses
-router.get('/api/course/all', async (req, res) => {
-  try {
-    const courses = await Course.find(
-      {},
-      'title number slug',
-      {
-        limit: parseInt(req.query.limit),
-        skip: parseInt(req.query.skip)
-      }
-    );
-    res.send(courses);
-  } catch (e) {
-    res.status(400).send(e.message);
-  }
-});
-
 // get details of a course
 router.get('/api/course/:slug', async (req, res) => {
   try {
