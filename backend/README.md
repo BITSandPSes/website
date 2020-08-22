@@ -29,7 +29,7 @@
   }
   ```
   
-- `POST /api/1/:station/:commentId/reply`, `POST /api/2/:station/:commentId/reply`, `POST /api/1/:station/:commentId/reply`: post a reply to a comment in the discussion threads.
+- `POST /api/1/:station/:commentId/reply`, `POST /api/2/:station/:commentId/reply`, `POST /api/course/:number/:commentId/reply`: post a reply to a comment in the discussion threads.
   - Requires `Authorization` Header with Bearer token.
   - Body:
   ```
