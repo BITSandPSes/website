@@ -9,3 +9,11 @@ Lite server runs on localhost:3000.
 yarn start
 ```
 
+## yarn build
+Create final build which will be used on the hosted domain. Run this command after commiting all the necessary changes.
+```
+yarn build
+```
+
+
+
