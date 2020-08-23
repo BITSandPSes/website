@@ -3,23 +3,6 @@ const router = new express.Router();
 const auth = require('../middleware/auth');
 const Station = require('../models/station');
 
-// get all stations of ps1
-router.get('/api/1/all', async (req, res) => {
-  try {
-    const stations = await Station.find(
-      { category: { type: 'ps1' } },
-      'name category field location cg slug',
-      {
-        limit: parseInt(req.query.limit),
-        skip: parseInt(req.query.skip)
-      }
-    );
-    res.send(stations);
-  } catch (e) {
-    res.status(400).send(e);
-  }
-});
-
 // get details of a station for ps1
 router.get('/api/1/:station', async (req, res) => {
   const station = await Station.findOne({ category: { type: 'ps1' }, slug: req.params.station });
