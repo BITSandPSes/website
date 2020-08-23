@@ -82,7 +82,7 @@ class Homed extends Component {
           throw error;
         }
       } else {
-        const response = await fetch( baseUrl + '/api/' + window.localStorage.getItem("stationNo") + '/all?limit=10&skip=' + this.state.stationsDisplayed );
+        const response = await fetch( baseUrl + '/api/' + window.localStorage.getItem("stationNo") + '?limit=10&skip=' + this.state.stationsDisplayed );
         if(response.ok)
         {
           const json = await response.json();

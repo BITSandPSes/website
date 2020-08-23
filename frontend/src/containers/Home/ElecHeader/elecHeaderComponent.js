@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import "./elecHeader.css";
-import { Navbar, NavbarBrand, Nav, NavItem, Input, Button, Form, FormGroup, NavbarToggler, Collapse } from 'reactstrap';
-import { NavLink, Link, Redirect, useHistory } from 'react-router-dom';
+import { Navbar, NavbarBrand, Nav, NavItem, Button, NavbarToggler, Collapse } from 'reactstrap';
+import { NavLink, Link } from 'react-router-dom';
 import axios from 'axios';
 import baseUrl from '../../../baseUrl';
 
