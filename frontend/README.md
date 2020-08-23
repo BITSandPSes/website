@@ -5,5 +5,5 @@ All the commands available on terminal are listed below;
 ## yarn start
 Preview all changes made while development on the lite server. Backend requests will be sent to baseUrl stored inside ./src/baseUrl.js.
 Lite server runs on localhost:3000.
-```yarn start```
+`yarn start`
 
