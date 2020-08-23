@@ -15,7 +15,7 @@ Create final build which will be used on the hosted domain. Run this command aft
 yarn build
 ```
 
-To set up local development server on localhost:8080, set up config env file in '. / ..' Then run command:
+To set up local development server on localhost:8080, set up config env file in '. / . .' Then run command:
 ```
 npm run dev
 ```
