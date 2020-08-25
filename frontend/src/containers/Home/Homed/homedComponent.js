@@ -3,6 +3,7 @@ import { Form, FormGroup, Input, Button, Label } from 'reactstrap';
 import "./homed.css";
 import { Link } from 'react-router-dom';
 import baseUrl from '../../../baseUrl';
+import axios from 'axios';
 
 function ListDisplay ({list,title,color}) {
   console.log(list);
@@ -37,142 +38,121 @@ function ListDisplay ({list,title,color}) {
 class Homed extends Component {
   constructor(props) {
     super(props);
-    this.findplaceholder = this.findplaceholder.bind(this);
-    this.handleEmptytype = this.handleEmptytype.bind(this);
-    this.loadMore = this.loadMore.bind(this);
     this.state = {
       searchData: null,
+      errMessage: "",
       foundResults: false,
-      topData: null,
+      resultsLoading: false,
       searchField: "",
       resultTitle: "All Stations",
       stationsDisplayed: 0,
       shouldLoadMore: true,
       searchMethod: "name"
-    }
+    };
+    this.cancel = '';
   }
   
   componentDidUpdate(prevProps) {
     if(prevProps.location.key !== this.props.location.key) {
-      window.location.reload(false);
+      this.fetchSearchResults(0,"","name");
     }
+  }
+
+  fetchSearchResults = async(skip,query,searchMethod) => {
+    const limitskipper = `&limit=10&skip=${skip}`;
+    let queryfeeder = "";
+    if( query !== "" || query !== null ) {
+      queryfeeder = searchMethod + '=' + query;
+    }
+    const fetchUrl = baseUrl + '/api/' + window.localStorage.getItem("stationNo") + '?' + queryfeeder + limitskipper;
+    if(this.cancel) {
+      //cancel the previous request before making a new one
+      this.cancel.cancel();
+    }
+    //creating a new cancel token
+    this.cancel = axios.CancelToken.source();
+    
+    axios.get( fetchUrl, {
+      cancelToken: this.cancel.token 
+    })
+    .then((response) => {
+      let results;
+      if(skip === 0) {
+        results = response.data;
+      }
+      else {
+        results = [...this.state.searchData,...response.data] ;
+      }
+      this.setState({
+        searchData: results,
+        resultTitle: "Search Results",
+        stationsDisplayed: this.state.stationsDisplayed + response.data.length,
+        shouldLoadMore: ( response.data.length === 10 ),
+        searchMethod: searchMethod,
+        resultsLoading: false 
+      });
+    })
+    .catch((error) =>{
+      if( axios.isCancel(error) || error ) {
+        this.setState({
+          resultsLoading: false,
+          errMessage: 'Failed to fetch'
+        });
+      }
+    });
   }
 
   async componentDidMount() {
     console.log(this.props);
-    try {
-      if(this.props.location.search !== "") {
-        const query = this.props.location.search.split("=")[1].split("&")[0];
-        const sender = this.props.location.search.split("=")[2];
-        const response = await fetch( baseUrl + '/api/' + window.localStorage.getItem("stationNo") + '?' + sender + '=' + query + '&limit=10&skip=' + this.state.stationsDisplayed );
-        if(response.ok)
-        {
-          const json = await response.json();
-          this.setState({
-            searchData: json,
-            resultTitle: "Search Results",
-            stationsDisplayed: this.state.stationsDisplayed + json.length,
-            shouldLoadMore: ( json.length === 10 ),
-            searchMethod: sender
-          });
-        }
-        else {
-          var error = new Error('Error ' + response.status + ': ' + response.statusText);
-          error.response = response;
-          throw error;
-        }
-      } else {
-        const response = await fetch( baseUrl + '/api/' + window.localStorage.getItem("stationNo") + '?limit=10&skip=' + this.state.stationsDisplayed );
-        if(response.ok)
-        {
-          const json = await response.json();
-          this.setState({
-            searchData: json,
-            stationsDisplayed: this.state.stationsDisplayed + json.length,
-            shouldLoadMore: ( json.length === 10 )
-          });
-        }
-        else {
-          var error = new Error('Error ' + response.status + ': ' + response.statusText);
-          error.response = response;
-          throw error;
-        }
-      }
-    } catch(error) {
-      alert("could not fetch search results.\nError: "+ error.message);
-    }
+    const query = this.state.searchField;
+    const searchMethod = this.state.searchMethod;
+    this.fetchSearchResults(0,query,searchMethod);
   }
 
   changeSearchMethod = (changeEvent) => {
+    const query = this.state.searchField;
+    const searchMethod = changeEvent.target.value;
     this.setState({
-      searchMethod: changeEvent.target.value
+      searchMethod: changeEvent.target.value,
+      searchField: query,
+      resultsLoading: true,
+      errMessage: ""
+    }, () => {
+      this.fetchSearchResults(0,query,searchMethod);
     });
   }
 
-  findplaceholder = () => {
-    if( this.props.location.search !== "") {
-      return this.props.location.search.split("=")[1].split("&")[0];
-    }
-    else {
-      return null;
-    }
-  };
-
-  handleEmptytype = (event) => {
-    if(this.state.searchField === null || this.state.searchField === "") {
-      event.preventDefault();
-    }
+  handleSearchChange = (event) => {
+    const query = event.target.value;
+    const searchMethod = this.state.searchMethod;
+    this.setState({
+      searchField: query,
+      resultsLoading: true,
+      errMessage: ""
+    }, () => {
+      this.fetchSearchResults(0,query,searchMethod);
+    });
   }
 
-  storeSearch = (event) => {
+  handleSearchSubmit = (event) => {
+    event.preventDefault();
+    const query = this.state.searchField;
+    const searchMethod = this.state.searchMethod;
     this.setState({
-      searchField: event.target.value
+      searchField: event.target.value,
+      resultsLoading: true,
+      errMessage: ""
+    }, () => {
+      this.fetchSearchResults(0,query,searchMethod);
     });
   }
 
   loadMore = async() => {
     var x = window.scrollX;
     var y = window.scrollY;
-    try {
-      if(this.props.location.search !== "") {
-        const query = this.props.location.search.split("=")[1].split("&")[0];
-        const sender = this.props.location.search.split("=")[2];
-        const response = await fetch( baseUrl + '/api/' + window.localStorage.getItem("stationNo") + '?' + sender + '=' + query + '&limit=10&skip=' + this.state.stationsDisplayed );
-        if(response.ok)
-        {
-          const json = await response.json();
-          this.setState({
-            searchData: [...this.state.searchData,...json],
-            resultTitle: "Search Results",
-            stationsDisplayed: this.state.stationsDisplayed + json.length,
-            shouldLoadMore: ( json.length === 10 )
-          });
-        }
-        else {
-          var error = new Error('Error ' + response.status + ': ' + response.statusText);
-          error.response = response;
-          throw error;
-        }
-      } else {
-        const response = await fetch( baseUrl + '/api/' + window.localStorage.getItem("stationNo") + '/all?limit=10&skip=' + this.state.stationsDisplayed );
-        if(response.ok)
-        {
-          const json = await response.json();
-          this.setState({
-            searchData: [...this.state.searchData,...json],
-            stationsDisplayed: this.state.stationsDisplayed + json.length,
-            shouldLoadMore: ( json.length === 10 )
-          });
-        }
-        else {
-          var error = new Error('Error ' + response.status + ': ' + response.statusText);
-          error.response = response;
-          throw error;
-        }
-      }
-    } catch(error) {
-      alert("could not fetch search results.\nError: "+ error.message);
-    }
+    const query = this.state.searchField;
+    const searchMethod = this.state.searchMethod;
+    this.fetchSearchResults(this.state.stationsDisplayed,query,searchMethod);
     window.scrollTo(x,y);
   }
 
@@ -203,10 +183,10 @@ class Homed extends Component {
                   <div className = "col-12 col-md-8 offset-md-2 text-left text-md-center padding-remover">
                   <Input type = "text"
                     name = "Search"
-                    defaultValue = { this.findplaceholder() }
+                    defaultValue = { this.state.searchField !== "" ? this.state.searchField : null } 
                     placeholder = "Search"
                     className = "home-search-bar"
-                    onChange = { (event) => {this.storeSearch(event)}} />
+                    onChange = { (event) => {this.handleSearchChange(event)}} />
                   </div>
                   <div className = "col-6 col-md-4 offset-md-2 text-left text-md-left padding-remover">
                     <FormGroup check inline className = "mt-4">
@@ -229,7 +209,7 @@ class Homed extends Component {
                     </FormGroup>
                   </div>
                   <div className = "col-6 col-md-4 text-right text-md-right padding-remover">
-                    <Button className = "search-button mt-4 ml-md-3" onClick = {(event) => { this.handleEmptytype(event) }} type = "submit" >Search</Button>
+                    <Button className = "search-button mt-4 ml-md-3" onClick = {(event) => { this.handleSearchSubmit(event) }} type = "submit" >Search</Button>
                   </div>
                 </Form>
               </div>
@@ -275,6 +255,8 @@ class Homed extends Component {
                   color = {color}
                 />
               </div>
+              { this.state.errMessage && <p className = "message">{this.state.errMessage}</p> }
+              { this.state.resultsLoading && <p className = "message">Loading...</p> }
               { this.state.shouldLoadMore ? 
                 <Button color = "link outline-none" onClick = { this.loadMore } className = "btn mb-1 load-more"><h5>LOAD MORE</h5></Button> 
               : null}
