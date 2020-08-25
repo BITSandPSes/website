@@ -38,9 +38,6 @@ function ListDisplay ({list,title,color}) {
 class Homed extends Component {
   constructor(props) {
     super(props);
-    this.findplaceholder = this.findplaceholder.bind(this);
-    this.handleEmptytype = this.handleEmptytype.bind(this);
-    this.loadMore = this.loadMore.bind(this);
     this.state = {
       searchData: null,
       errMessage: "",
@@ -55,8 +52,10 @@ class Homed extends Component {
     this.cancel = '';
   }
   
-  componentDidUpdate() {
-    this.fetchSearchResults(0,"","name");
+  componentDidUpdate(prevProps) {
+    if(prevProps.location.key !== this.props.location.key) {
+      this.fetchSearchResults(0,"","name");
+    }
   }
 
   fetchSearchResults = async(skip,query,searchMethod) => {
@@ -65,7 +64,7 @@ class Homed extends Component {
     if( query !== "" || query !== null ) {
       queryfeeder = searchMethod + '=' + query;
     }
-    const fetchUrl = baseUrl + '/api/' + window.localStorage.getItem("stationNo") + '?' + searchMethod + '=' + queryfeeder + limitskipper;
+    const fetchUrl = baseUrl + '/api/' + window.localStorage.getItem("stationNo") + '?' + queryfeeder + limitskipper;
     if(this.cancel) {
       //cancel the previous request before making a new one
       this.cancel.cancel();
@@ -89,7 +88,7 @@ class Homed extends Component {
         resultTitle: "Search Results",
         stationsDisplayed: this.state.stationsDisplayed + response.data.length,
         shouldLoadMore: ( response.data.length === 10 ),
-        searchMethod: sender,
+        searchMethod: searchMethod,
         resultsLoading: false 
       });
     })
@@ -111,8 +110,15 @@ class Homed extends Component {
   }
 
   changeSearchMethod = (changeEvent) => {
+    const query = this.state.searchField;
+    const searchMethod = changeEvent.target.value;
     this.setState({
-      searchMethod: changeEvent.target.value
+      searchMethod: changeEvent.target.value,
+      searchField: query,
+      resultsLoading: true,
+      errMessage: ""
+    }, () => {
+      this.fetchSearchResults(0,query,searchMethod);
     });
   }
 
@@ -120,7 +126,7 @@ class Homed extends Component {
     const query = event.target.value;
     const searchMethod = this.state.searchMethod;
     this.setState({
-      searchField: event.target.value,
+      searchField: query,
       resultsLoading: true,
       errMessage: ""
     }, () => {
