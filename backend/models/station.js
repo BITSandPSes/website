@@ -34,6 +34,12 @@ const stationSchema = new mongoose.Schema({
       max: 10
     }
   },
+  industryDomain: {
+    type: String,
+  },
+  branch: {
+    type: { type: String, enum: ['A1', 'A2', 'A3', 'A4', 'A5', 'A7', 'A8', 'A9', 'AA', 'B1', 'B2', 'B3', 'B4', 'B5'] }
+  },
   discussion: [{
     comment: {
       user: {
