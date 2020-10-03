@@ -34,8 +34,9 @@ router.get('/api/2', async (req, res) => {
   }
 
   if (req.query.branch) {
-    queries.branches = { $in: [new RegExp(req.query.branch, 'i')] };
-  }
+    const branches = req.req.query.tags.split(' ');
+    queries.branches = { $in: branches };
+}
 
   try {
     const stations = await Station.find(queries,
