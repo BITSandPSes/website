@@ -22,7 +22,8 @@ db();
 // models
 const User = require('./models/user');
 const Station = require('./models/station');
-const Course = require('./models/course')
+const Course = require('./models/course');
+const Feedback = require('./models/feedback');
 
 // setup admin panel
 AdminBro.registerAdapter(AdminBroMongoose);
@@ -31,7 +32,8 @@ const adminBro = new AdminBro({
   resources: [
     User,
     Station,
-    Course
+    Course,
+    Feedback
   ],
   rootPath: '/admin'
 });

@@ -2,6 +2,7 @@ const express = require('express');
 const router = new express.Router();
 const auth = require('../middleware/auth');
 const Course = require('../models/course');
+const Feedback = require('../models/feedback')
 
 // get details of a course
 router.get('/api/course/:slug', async (req, res) => {
@@ -19,7 +20,7 @@ router.get('/api/course/:slug', async (req, res) => {
   }
 });
 
-// search the stations by name for ps1
+// search for the courses
 router.get('/api/course', async (req, res) => {
   const queries = {};
 
@@ -97,5 +98,28 @@ router.post('/api/course/:slug/:comment/reply', auth, async (req, res) => {
     res.status(400).send(e.message);
   }
 });
+
+router.post('/api/course/feedback', auth, async (req, res) => {
+  try {
+    console.log(req.body)
+    const course = await Course.findOne({ slug: req.body.course });
+
+    if (!course) {
+      return res.status(404).send('Course not found');
+    }
+  
+    const feedback = new Feedback({
+      user: req.user._id,
+      course: course._id,
+      ratings: req.body.ratings,
+      feedbacks: req.body.feedbacks
+    })
+  
+    await feedback.save();
+    res.send(feedback)
+  } catch(e) {
+    res.status(400).send(e.message);
+  }
+})
 
 module.exports = router;

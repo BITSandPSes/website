@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const URLSlugs = require('mongoose-url-slugs');
 const User = require('./user');
+const Feedback = require('./feedback');
 
 const courseSchema = new mongoose.Schema({
   title: {
@@ -81,7 +82,10 @@ courseSchema.methods.allData = async function () {
     users[i] = await users[i].toJSON();
   }
 
-  return { course, users };
+  // populate the feedbacks
+  const feedbacks = await Feedback.find({ course: this._id });
+
+  return { course, users, feedbacks };
 };
 
 const Course = mongoose.model('Course', courseSchema);
