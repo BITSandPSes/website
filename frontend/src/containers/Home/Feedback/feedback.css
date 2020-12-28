@@ -1,0 +1,61 @@
+.envelope {
+    margin-top: 69px;
+}
+
+.feedback-box {
+    background-color: #EFEFEF !important;
+    border-radius: 30px;
+}
+
+.row-contents {
+    padding-top: 6vh !important;
+    padding-bottom: 0vh !important ;
+}
+
+.feedback-heading {
+    font-family: 'Bree Serif', serif;
+    color: #403D39;
+    padding: 1vw 2vh;
+    font-size: 6vw;
+}
+
+.feedback-sub-text {
+    color: #2A9134;
+    font-family: 'Ubuntu' , serif ;
+    font-weight: 300;
+    padding: 0vw 2vh;
+    line-height: 150% !important;
+}
+
+
+@media screen and (max-width: 1300px) {
+    .feedback-heading {
+        font-size: 8vw;
+    }
+
+    .row-contents {
+        padding-top: 6vh !important;
+        padding-bottom: 0vh !important ;   
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .feedback-heading {
+        font-size: 11vw;
+    }
+    .row-contents {
+        padding-top: 5vh !important;
+        padding-bottom: 0vh !important ;   
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .feedback-heading {
+        font-size: 15vw;   
+    }
+
+    .row-contents {
+        padding-top: 4.3vh !important;
+        padding-bottom: 0vh !important ;   
+    }
+}

@@ -7,8 +7,8 @@ import './contact.css';
 class Contact extends Component {
   render() {
     return(
-      <div class = "envelope">
-        <div class = "container contact-bg">
+      <div className = "envelope">
+        <div className = "container contact-bg">
           <div className = "row justify-content-center">
             <div className = "col-11 col-md-12 contact-big-box mt-4">
               <div className = "row">
