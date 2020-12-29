@@ -59,3 +59,74 @@
         padding-bottom: 0vh !important ;   
     }
 }
+
+.feedback-login-button {
+    border-radius: 100px !important;
+    background-color: #0353A4 !important;
+    border-width: 0px !important;
+    font-family: 'Ubuntu', serif !important;
+    font-weight: 400 !important;
+    color: #EFEFEF !important;
+    height: 40px !important;
+    width: 90% !important;
+    max-width: 200px !important;
+}
+
+.feedback-input {
+    border-width: 0px !important;
+    border-radius: 10px !important;
+}
+
+.feedback-label {
+    color: #2A9134;
+    font-family: 'Ubuntu' , serif ;
+    font-weight: 300;
+    line-height: 150% !important;
+}
+
+.feedback-black-label {
+    color: #111111;
+    font-family: 'Ubuntu' , serif ;
+    font-weight: 300;
+    line-height: 150% !important;
+}
+
+.rc-slider {
+    height: 10px !important;
+}
+
+.rc-slider-rail {
+    height: 10px !important;
+    background-color: #cccccc !important;
+}
+
+.rc-slider-track {
+    height: 10px !important;
+    background-color: #0353A4 !important;
+}
+
+.rc-slider-handle {
+    border-color: #0353A4 !important; 
+    height: 20px !important; 
+    width: 20px !important; 
+    background-color: white !important; 
+}
+
+.rc-slider-handle:active {
+    box-shadow: 0px 0px 11px 0px rgba(3, 83, 164, 0.75) !important;
+}
+
+.rc-slider-step {
+    display: none !important;
+}
+
+.feedback-submit-button {
+    border-radius: 100px !important;
+    background-color: #0353A4 !important;
+    border-width: 0px !important;
+    font-family: 'Ubuntu', serif !important;
+    font-weight: 400 !important;
+    color: #EFEFEF !important;
+    height: 40px !important;
+    width: 100px !important;
+}

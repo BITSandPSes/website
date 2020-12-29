@@ -11,6 +11,7 @@
     "bootstrap": "^4.5.2",
     "env-cmd": "^10.1.0",
     "font-awesome": "^4.7.0",
+    "rc-slider": "^9.7.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-redux": "^7.2.1",
