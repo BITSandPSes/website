@@ -101,11 +101,18 @@ router.post('/api/course/:slug/:comment/reply', auth, async (req, res) => {
 
 router.post('/api/course/feedback', auth, async (req, res) => {
   try {
-    console.log(req.body)
     const course = await Course.findOne({ slug: req.body.course });
 
     if (!course) {
       return res.status(404).send('Course not found');
+    }
+
+    const count = await Feedback.countDocuments({
+      user: req.user._id
+    })
+
+    if (count >= 3) {
+      return res.status(403).send('Cannot submit more than 3 feedbacks');
     }
   
     const feedback = new Feedback({

@@ -30,7 +30,7 @@ const feedbackSchema = new mongoose.Schema({
                 min: 1
             }
         },
-        recommend: {
+        grade: {
             type: Number,
             required: true,
             validate: {
