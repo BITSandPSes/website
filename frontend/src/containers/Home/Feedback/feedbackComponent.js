@@ -22,7 +22,8 @@ class Feedback extends Component {
       noOfFeedbacks: 0,
       interestValue: 3,
       liteValue: 3,
-      gradingValue: 3
+      gradingValue: 3,
+      anotherWindow: false
     }
   }
 
@@ -39,8 +40,43 @@ class Feedback extends Component {
     window.localStorage.setItem("googleRedirect","/feedback");
   }
 
-  handleSubmit = (values) => {
-
+  async handleSubmit(values) {
+    console.log(values);
+    if(document.cookie.split(';').some((item) => item.trim().startsWith('jwt='))) { //checking whether client has logged in 
+      const cookies = document.cookie.split('; ');
+      const value = cookies.find(item => item.startsWith('jwt')).split('=')[1];  //extracting bearer token from login cookie
+      const response = await axios({     //posting the comment request on backend
+        method: 'post',
+        url: baseUrl +  "/api/course/feedback" ,
+        headers: {
+          Authorization: `Bearer ${value}`
+        },
+        data: {
+          "course": values.courseNo,
+          "ratings": {
+            "experience": this.state.interestValue,
+            "lite": this.state.liteValue,
+            "recommend": this.state.gradingValue
+          },
+          "feedbacks": {
+            "good": values.goodFeedback,
+            "bad": values.badFeedback,
+            "other": values.gyaan
+          } 
+        }
+      });
+      if(response.status === 200) {
+        this.setState({
+          anotherWindow: true
+        });
+      }
+      else {
+        alert('Error ' + response.status + ': ' + response.statusText);
+      }
+    }
+    else {             //if client has not logged in
+      alert("you must be logged in to comment on stations.");
+    }
   }
 
   onInterestChange = (value) => {
@@ -63,13 +99,6 @@ class Feedback extends Component {
 
   feedbackForm = () => {
     if(this.state.submitMore) {
-      if(this.state.noOfFeedbacks >= 3) {
-        alert("You can only submit feedback for three courses");
-        this.handlelogout();
-        return(
-          <Redirect to = {'/' + this.props.match.url.split('/')[1] + '/home'} />
-        );
-      }
       const marks = {
         1: '1',
         2: '2',
@@ -246,14 +275,21 @@ class Feedback extends Component {
   };
 
   render() {
-    if(this.state.isLoggedIn) {
+    if(this.state.anotherWindow) {
       return(
         <div className = "envelope">
           <div className = "container">
             <div className = "row row-contents justify-content-center">
               <div className = "col-11 feedback-box">
-                <h1 className = "feedback-heading text-left text-md-center">Review</h1>
-                <this.feedbackForm />
+                <h1 className = "feedback-heading text-left text-md-center">Thanks.</h1>
+                <h6 className = "feedback-sub-text text-left text-md-center d-block">
+                  We are grateful for your valuable feedback peepeepoopoo..
+                </h6>
+                <Button className = "feedback-login-button mt-4 mb-4 mb-md-5" 
+                onClick = {() => { window.location.reload(); }} >Submit another review
+                </Button>
+                <br/>
+                <Button className = "feedback-login-button mt-4 mb-4 mb-md-5" onClick = {() => { this.handlelogout(); window.location.reload(); }} >Logout</Button>
               </div>
             </div>
           </div>
@@ -261,24 +297,40 @@ class Feedback extends Component {
       );
     }
     else {
-      return(
-        <div className = "envelope">
-          <div className = "container">
-            <div className = "row row-contents justify-content-center">
-              <div className = "col-11 feedback-box">
-                <h1 className = "feedback-heading text-left text-md-center">Login.</h1>
-                <h6 className = "feedback-sub-text text-left text-md-center d-block">
-                  To submit your feedback on BITSandPSes for this semester's humanity electives<br/>
-                  Please login via your BITS email ID.
-                </h6>
-                <a href = "/auth/google">
-                  <Button className = "feedback-login-button mt-4 mb-4 mb-md-5" onClick = {() => { this.handleLogin(); }} >Login</Button>
-                </a>
+      if(this.state.isLoggedIn) {
+        return(
+          <div className = "envelope">
+            <div className = "container">
+              <div className = "row row-contents justify-content-center">
+                <div className = "col-11 feedback-box">
+                  <h1 className = "feedback-heading text-left text-md-center">Review</h1>
+                  <this.feedbackForm />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      );
+        );
+      }
+      else {
+        return(
+          <div className = "envelope">
+            <div className = "container">
+              <div className = "row row-contents justify-content-center">
+                <div className = "col-11 feedback-box">
+                  <h1 className = "feedback-heading text-left text-md-center">Login.</h1>
+                  <h6 className = "feedback-sub-text text-left text-md-center d-block">
+                    To submit your feedback on BITSandPSes for this semester's humanity electives<br/>
+                    Please login via your BITS email ID.
+                  </h6>
+                  <a href = "/auth/google">
+                    <Button className = "feedback-login-button mt-4 mb-4 mb-md-5" onClick = {() => { this.handleLogin(); }} >Login</Button>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      }
     }
   }
 
