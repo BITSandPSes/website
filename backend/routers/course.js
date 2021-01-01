@@ -112,7 +112,7 @@ router.post('/api/course/feedback', auth, async (req, res) => {
     })
 
     if (count >= 3) {
-      return res.status(403).send('Cannot submit more than 3 feedbacks');
+      return res.status(400).send('Cannot submit more than 3 feedbacks');
     }
   
     const feedback = new Feedback({

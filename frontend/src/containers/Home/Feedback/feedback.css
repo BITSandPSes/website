@@ -134,3 +134,10 @@
     height: 40px !important;
     width: 100px !important;
 }
+
+.validate-feedback-text {
+    color: rgb(158, 0, 0);
+    font-family: 'Ubuntu' , serif ;
+    font-weight: 300;
+    line-height: 150% !important;
+}

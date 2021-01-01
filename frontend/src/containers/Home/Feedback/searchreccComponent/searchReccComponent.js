@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button } from 'reactstrap';
+import "./searchRecc.css"
 
 class SearchRecc extends Component {
     constructor(props) {
@@ -8,15 +9,19 @@ class SearchRecc extends Component {
     
     render() {
         if(this.props.show) {
+            let styler = "search-content";
+            if(this.props.list.length != 0) {
+                styler = styler + " search-recc-padding"
+            } 
             return(
-                <div className = "searchReccBox" >
-                    <div className = "search-absolute-box">
+                <div className = "search-wrap" >
+                    <div className = {styler}>
                         { this.props.list.map((course) => {
                             let name = this.props.display == 1 ? course.courseName: course.courseNo;
                             return(
-                                <Button 
-                                className = "search-recc-button"
-                                onClick = {() => { this.props.click(course); }}>{name}</Button>
+                                <h6 
+                                onClick = {() => { this.props.click(course); }}
+                                className = "search-recc-row text-lg-left">{name}</h6>
                             );
                         })}
                     </div>

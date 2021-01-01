@@ -10,6 +10,9 @@ import './feedback.css';
 import huelList from '../../../courses';
 import SearchRecc from './searchreccComponent/searchReccComponent';
 
+const required = (val) => val && val.length;
+const notCorrect = (parame) => (val) => parame;
+
 class Feedback extends Component {
   constructor(props) {
     super(props);
@@ -56,33 +59,41 @@ class Feedback extends Component {
     if(document.cookie.split(';').some((item) => item.trim().startsWith('jwt='))) { //checking whether client has logged in 
       const cookies = document.cookie.split('; ');
       const value = cookies.find(item => item.startsWith('jwt')).split('=')[1];  //extracting bearer token from login cookie
-      const response = await axios({     //posting the comment request on backend
-        method: 'post',
-        url: baseUrl +  "/api/course/feedback" ,
-        headers: {
-          Authorization: `Bearer ${value}`
-        },
-        data: {
-          "course": this.state.course.courseSlug,
-          "ratings": {
-            "experience": this.state.interestValue,
-            "lite": this.state.liteValue,
-            "grade": this.state.gradingValue
+      if( this.state.matchesSomeCourse ) {
+        const response = await axios({     //posting the comment request on backend
+          method: 'post',
+          url: baseUrl +  "/api/course/feedback" ,
+          headers: {
+            Authorization: `Bearer ${value}`
           },
-          "feedbacks": {
-            "good": values.goodFeedback,
-            "bad": values.badFeedback,
-            "other": values.gyaan
-          } 
-        }
-      });
-      if(response.status === 200) {
-        this.setState({
-          anotherWindow: true
+          data: {
+            "course": this.state.course.courseSlug,
+            "ratings": {
+              "experience": this.state.interestValue,
+              "lite": this.state.liteValue,
+              "grade": this.state.gradingValue
+            },
+            "feedbacks": {
+              "good": values.goodFeedback,
+              "bad": values.badFeedback,
+              "other": values.gyaan
+            } 
+          }
         });
+        if(response.status === 200) {
+          this.setState({
+            anotherWindow: true
+          });
+        }
+        else if(response.status === 400) {
+          alert("You have already submitted allowed no. of feedbacks.");
+        }
+        else {
+          alert('Error ' + response.status + ': ' + response.statusText);
+        }
       }
       else {
-        alert('Error ' + response.status + ': ' + response.statusText);
+        alert("Properly fill the course information");
       }
     }
     else {             //if client has not logged in
@@ -171,7 +182,8 @@ class Feedback extends Component {
       course: contra,
       matchesSomeCourse: true,
       showNameRec: false,
-      showNoRec: false
+      showNoRec: false,
+      matchList: [contra]
     }, function() {
       console.log(this.state.matchesSomeCourse);
     });
@@ -202,7 +214,7 @@ class Feedback extends Component {
                placeholder = "courseName"
                onChange = {this.handleNameChange}
                value = {this.state.course.courseName}
-               onFocus = { () => { this.setState({ showNameRec: true }); } } 
+               onFocus = { () => { this.setState({ showNameRec: true, showNoRec: false }); } } 
                />
               <SearchRecc
                list = {this.state.matchList} 
@@ -223,7 +235,7 @@ class Feedback extends Component {
                placeholder = "courseNo"
                onChange = {this.handleNumberChange}
                value = {this.state.course.courseNo}
-               onFocus = { () => { this.setState({ showNoRec: true }); }}
+               onFocus = { () => { this.setState({ showNoRec: true, showNameRec: false }); }}
                />
               <SearchRecc
                list = {this.state.matchList} 
