@@ -4,9 +4,11 @@ import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import baseUrl from '../../../baseUrl';
 import { LocalForm, actions, Control, Errors } from 'react-redux-form';
-import Slider, {Range} from 'rc-slider';
+import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import './feedback.css';
+import huelList from '../../../courses';
+import SearchRecc from './searchreccComponent/searchReccComponent';
 
 class Feedback extends Component {
   constructor(props) {
@@ -23,7 +25,16 @@ class Feedback extends Component {
       interestValue: 3,
       liteValue: 3,
       gradingValue: 3,
-      anotherWindow: false
+      anotherWindow: false,
+      course: {
+        courseName: "",
+        courseNo: "",
+        courseSlug: ""
+      },
+      matchList: [],
+      matchesSomeCourse: false,
+      showNameRec: false,
+      showNoRec: false
     }
   }
 
@@ -52,11 +63,11 @@ class Feedback extends Component {
           Authorization: `Bearer ${value}`
         },
         data: {
-          "course": values.courseNo,
+          "course": this.state.course.courseSlug,
           "ratings": {
             "experience": this.state.interestValue,
             "lite": this.state.liteValue,
-            "recommend": this.state.gradingValue
+            "grade": this.state.gradingValue
           },
           "feedbacks": {
             "good": values.goodFeedback,
@@ -97,6 +108,77 @@ class Feedback extends Component {
     });
   }
 
+  handleNameChange = (e) => {
+    console.log(e.target.value);
+    this.setState({
+      matchList: huelList.filter((course) => course.courseName.includes(e.target.value.toUpperCase())),
+      course: {
+        courseName: e.target.value,
+        courseNo: "",
+        courseSlug: ""
+      }
+    });
+    console.log(this.state.matchList);
+    console.log(e.target.value.toUpperCase() === "MASS MEDIA & CONTENT DES");
+    if(this.state.matchList.some((course) => course.courseName == e.target.value.toUpperCase())) {
+      this.setState({
+        matchesSomeCourse: true,
+        course: this.state.matchList.find((course) => course.courseName == e.target.value.toUpperCase())
+      }, function() {
+        console.log(this.state.matchesSomeCourse);
+      });
+    }
+    else {
+      this.setState({
+        matchesSomeCourse: false
+      }, function() {
+        console.log(this.state.matchesSomeCourse);
+      });
+    }
+    
+  }
+
+  handleNumberChange = (e) => {
+    console.log(e.target.value);
+    this.setState({
+      matchList: huelList.filter( (course) => course.courseNo.includes(e.target.value.toUpperCase()) ),
+      course: {
+        courseName: "",
+        courseNo: e.target.value,
+        courseSlug: ""
+      }
+    });
+    console.log(this.state.matchList);
+    if(this.state.matchList.some((course) => course.courseNo == e.target.value.toUpperCase())) {
+      this.setState({
+        matchesSomeCourse: true,
+        course: this.state.matchList.find((course) => course.courseNo == e.target.value.toUpperCase())
+      }, function() {
+        console.log(this.state.matchesSomeCourse);
+      });
+    }
+    else {
+      this.setState({
+        matchesSomeCourse: false
+      }, function() {
+        console.log(this.state.matchesSomeCourse);
+      });
+    }
+  }
+
+  handleAutoFill = (contra) => {
+    this.setState({
+      course: contra,
+      matchesSomeCourse: true,
+      showNameRec: false,
+      showNoRec: false
+    }, function() {
+      console.log(this.state.matchesSomeCourse);
+    });
+    console.log(this.state.matchList);
+  }
+
+
   feedbackForm = () => {
     if(this.state.submitMore) {
       const marks = {
@@ -118,7 +200,15 @@ class Feedback extends Component {
                name = "courseName"
                id = "courseName"
                placeholder = "courseName"
+               onChange = {this.handleNameChange}
+               value = {this.state.course.courseName}
+               onFocus = { () => { this.setState({ showNameRec: true }); } } 
                />
+              <SearchRecc
+               list = {this.state.matchList} 
+               click = {this.handleAutoFill}
+               display = {1}
+               show = {this.state.showNameRec} />
             </Col>
           </Row>
           <Row className = "form-group align-items-end mt-4">
@@ -131,7 +221,15 @@ class Feedback extends Component {
                name = "courseNo"
                id = "courseNo"
                placeholder = "courseNo"
+               onChange = {this.handleNumberChange}
+               value = {this.state.course.courseNo}
+               onFocus = { () => { this.setState({ showNoRec: true }); }}
                />
+              <SearchRecc
+               list = {this.state.matchList} 
+               click = {this.handleAutoFill} 
+               display = {2}
+               show = {this.state.showNoRec}/>
             </Col>
           </Row>
           <Row className = "form-group align-items-start mt-4 mt-lg-5">
@@ -288,8 +386,8 @@ class Feedback extends Component {
                 <Button className = "feedback-login-button mt-4 mb-4 mb-md-5" 
                 onClick = {() => { window.location.reload(); }} >Submit another review
                 </Button>
-                <br/>
-                <Button className = "feedback-login-button mt-4 mb-4 mb-md-5" onClick = {() => { this.handlelogout(); window.location.reload(); }} >Logout</Button>
+                {/* <br/> */}
+                {/* <Button className = "feedback-login-button mt-4 mb-4 mb-md-5" onClick = {() => { this.handlelogout(); window.location.reload(); }} >Logout</Button> */}
               </div>
             </div>
           </div>

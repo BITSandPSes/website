@@ -95,9 +95,9 @@ class ElecHeader extends Component {
                 <NavItem className = "d-flex align-items-center nav-items my-3 my-md-0">
                   <Link className = "nav-linker" to = "/1/home" >STATIONS</Link>
                 </NavItem>
-                <NavItem className = "d-flex align-items-center nav-items my-3 my-md-0">
+                {/* <NavItem className = "d-flex align-items-center nav-items my-3 my-md-0">
                   <this.loginHandle />
-                </NavItem>
+                </NavItem> */}
               </Nav>
             </Collapse>
         </div>
