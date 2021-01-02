@@ -85,9 +85,6 @@ class Feedback extends Component {
             anotherWindow: true
           });
         }
-        else if(response.status === 400) {
-          alert("You have already submitted allowed no. of feedbacks.");
-        }
         else {
           alert('Error ' + response.status + ': ' + response.statusText);
         }
