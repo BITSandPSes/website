@@ -19,6 +19,7 @@ class Home extends Component {
   }
   
   googleDirect = () => {
+    alert("bruh");
     const direct = window.localStorage.getItem("googleRedirect");
     if( direct != null) {
       window.localStorage.removeItem("googleRedirect");
