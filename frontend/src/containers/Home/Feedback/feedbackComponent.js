@@ -88,7 +88,7 @@ class Feedback extends Component {
           }
         }
         catch(error) {
-          alert(error);
+          alert(error.message);
         }
       }
       else {
