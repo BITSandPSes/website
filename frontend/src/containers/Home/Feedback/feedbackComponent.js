@@ -60,32 +60,34 @@ class Feedback extends Component {
       const cookies = document.cookie.split('; ');
       const value = cookies.find(item => item.startsWith('jwt')).split('=')[1];  //extracting bearer token from login cookie
       if( this.state.matchesSomeCourse ) {
-        const response = await axios({     //posting the comment request on backend
-          method: 'post',
-          url: baseUrl +  "/api/course/feedback" ,
-          headers: {
-            Authorization: `Bearer ${value}`
-          },
-          data: {
-            "course": this.state.course.courseSlug,
-            "ratings": {
-              "experience": this.state.interestValue,
-              "lite": this.state.liteValue,
-              "grade": this.state.gradingValue
+        try{
+          const response = await axios({     //posting the comment request on backend
+            method: 'post',
+            url: baseUrl +  "/api/course/feedback" ,
+            headers: {
+              Authorization: `Bearer ${value}`
             },
-            "feedbacks": {
-              "good": values.goodFeedback,
-              "bad": values.badFeedback,
-              "other": values.gyaan
-            } 
-          }
-        });
-        if(response.status === 200) {
-          this.setState({
-            anotherWindow: true
+            data: {
+              "course": this.state.course.courseSlug,
+              "ratings": {
+                "experience": this.state.interestValue,
+                "lite": this.state.liteValue,
+                "grade": this.state.gradingValue
+              },
+              "feedbacks": {
+                "good": values.goodFeedback,
+                "bad": values.badFeedback,
+                "other": values.gyaan
+              } 
+            }
           });
+          if(response.status === 200) {
+            this.setState({
+              anotherWindow: true
+            });
+          }
         }
-        else {
+        catch(error) {
           alert('Error ' + response.status + ': ' + response.statusText);
         }
       }
