@@ -47,6 +47,8 @@ class Feedback extends Component {
         isLoggedIn: true
       };
     }
+    window.localStorage.setItem("googleRedirect","/feedback");
+    window.localStorage.setItem("stationNo", "3");
     return null;
   }
 
@@ -383,8 +385,6 @@ class Feedback extends Component {
   };
 
   render() {
-    window.localStorage.setItem("googleRedirect","/feedback");
-    window.localStorage.setItem("stationNo", "3");
     if(this.state.anotherWindow) {
       return(
         <div className = "envelope">
