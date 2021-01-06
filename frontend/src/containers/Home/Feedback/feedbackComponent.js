@@ -255,6 +255,7 @@ class Feedback extends Component {
                step={1}
                onChange = {(value) => { this.onInterestChange(value); }}
                value={this.state.interestValue} 
+               onFocus = { () => { this.setState({ showNameRec: false, showNoRec: false }); } }
                />     
             </Col>
           </Row>
@@ -272,6 +273,7 @@ class Feedback extends Component {
                step={1}
                onChange = {(value) => { this.onLiteChange(value); }}
                value={this.state.liteValue} 
+               onFocus = { () => { this.setState({ showNameRec: false, showNoRec: false }); } }
                />     
             </Col>
           </Row>
@@ -289,6 +291,7 @@ class Feedback extends Component {
                step={1}
                onChange = {(value) => { this.onGradingChange(value); }}
                value={this.state.gradingValue} 
+               onFocus = { () => { this.setState({ showNameRec: false, showNoRec: false }); } }
                />     
             </Col>
           </Row>
@@ -304,6 +307,7 @@ class Feedback extends Component {
                id = "goodFeedback"
                placeholder = ""
                rows={5}
+               onFocus = { () => { this.setState({ showNameRec: false, showNoRec: false }); } }
                />
             </Col>
           </Row>
@@ -318,6 +322,7 @@ class Feedback extends Component {
                id = "badFeedback"
                placeholder = ""
                rows={5}
+               onFocus = { () => { this.setState({ showNameRec: false, showNoRec: false }); } }
                />
             </Col>
           </Row>
@@ -333,6 +338,7 @@ class Feedback extends Component {
                id = "gyaan"
                placeholder = ""
                rows={5}
+               onFocus = { () => { this.setState({ showNameRec: false, showNoRec: false }); } }
                />
             </Col>
           </Row>
