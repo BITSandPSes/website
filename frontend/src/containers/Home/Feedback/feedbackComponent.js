@@ -50,10 +50,6 @@ class Feedback extends Component {
     return null;
   }
 
-  handleLogin = () => {
-    window.localStorage.setItem("googleRedirect","/feedback");
-    window.localStorage.setItem("stationNo", "3");
-  }
 
   async handleSubmit(values) {
     console.log(values);
@@ -387,6 +383,8 @@ class Feedback extends Component {
   };
 
   render() {
+    window.localStorage.setItem("googleRedirect","/feedback");
+    window.localStorage.setItem("stationNo", "3");
     if(this.state.anotherWindow) {
       return(
         <div className = "envelope">
@@ -435,7 +433,7 @@ class Feedback extends Component {
                     Please login via your BITS email ID.
                   </h6>
                   <a href = "/auth/google">
-                    <Button className = "feedback-login-button mt-4 mb-4 mb-md-5" onClick = {() => { this.handleLogin(); }} >Login</Button>
+                    <Button className = "feedback-login-button mt-4 mb-4 mb-md-5" >Login</Button>
                   </a>
                 </div>
               </div>
