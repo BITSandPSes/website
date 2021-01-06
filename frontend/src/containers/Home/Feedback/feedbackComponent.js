@@ -214,6 +214,7 @@ class Feedback extends Component {
                onChange = {this.handleNameChange}
                value = {this.state.course.courseName}
                onFocus = { () => { this.setState({ showNameRec: true, showNoRec: false }); } } 
+               autoComplete = "off"
                />
               <SearchRecc
                list = {this.state.matchList} 
@@ -235,6 +236,7 @@ class Feedback extends Component {
                onChange = {this.handleNumberChange}
                value = {this.state.course.courseNo}
                onFocus = { () => { this.setState({ showNoRec: true, showNameRec: false }); }}
+               autoComplete = "off"
                />
               <SearchRecc
                list = {this.state.matchList} 
