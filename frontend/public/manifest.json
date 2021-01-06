@@ -1,6 +1,7 @@
 {
   "short_name": "BITS&PSes",
-  "name": "BITSandPSes: Might just save you from the factories",
+  "name": "BITSandPSes",
+  "description": "A guide to help you find the most appropriate station and elective.",
   "icons": [
     {
       "src": "logo.ico",
