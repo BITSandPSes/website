@@ -15,22 +15,6 @@ import HuelFeedback from './Feedback/feedbackComponent' ; //feedback component
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.googleDirect = this.googleDirect.bind(this);
-  }
-  
-  googleDirect = () => {
-    alert("bruh");
-    const direct = window.localStorage.getItem("googleRedirect");
-    if( direct != null) {
-      window.localStorage.removeItem("googleRedirect");
-      console.log(direct);
-      return(
-        <Redirect to = {this.props.match.url + direct} />
-      );
-    }
-    return(
-      <Redirect to = {this.props.match.url + '/home'} />
-    );
   }
 
   render() {
@@ -59,7 +43,7 @@ class Home extends Component {
             <Route path = {this.props.match.url + '/contact' } component = {Contact} />
             <Route path = {this.props.match.url + '/course/:courseSlug' } component = {CourseDisplay} />
             <Route path = {this.props.match.url + '/feedback'} component = {HuelFeedback} />
-            <this.googleDirect />
+            <Redirect to = {this.props.match.url + '/home'} />
           </Switch>
           <Footer />
         </div>

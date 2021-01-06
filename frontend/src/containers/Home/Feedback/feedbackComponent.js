@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import baseUrl from '../../../baseUrl';
+import authUrl from '../../../authRedirect';
 import { LocalForm, actions, Control, Errors } from 'react-redux-form';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
@@ -16,7 +17,6 @@ const notCorrect = (parame) => (val) => parame;
 class Feedback extends Component {
   constructor(props) {
     super(props);
-    this.handleLogin = this.handleLogin.bind(this);
     this.handlelogout = this.handlelogout.bind(this);
     this.feedbackForm = this.feedbackForm.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -48,11 +48,6 @@ class Feedback extends Component {
       };
     }
     return null;
-  }
-
-  handleLogin = () => {
-    window.localStorage.setItem("googleRedirect","/feedback");
-    window.localStorage.setItem("stationNo", "3");
   }
 
   async handleSubmit(values) {
@@ -434,8 +429,8 @@ class Feedback extends Component {
                     To submit your feedback on BITSandPSes for this semester's humanity electives<br/>
                     Please login via your BITS email ID.
                   </h6>
-                  <a href = "/auth/google">
-                    <Button className = "feedback-login-button mt-4 mb-4 mb-md-5" onClick = {() => { this.handleLogin(); }} >Login</Button>
+                  <a href = { authUrl + "&state=/3/feedback"}>
+                    <Button className = "feedback-login-button mt-4 mb-4 mb-md-5">Login</Button>
                   </a>
                 </div>
               </div>

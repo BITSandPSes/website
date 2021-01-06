@@ -1,0 +1,3 @@
+const baseRedirect = "https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?access_type=offline&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&response_type=code&prompt=consent&client_id=164013765426-nh49r4jm2f7f948sgtqb514cavtktga9.apps.googleusercontent.com&redirect_uri=https%3A%2F%2Fbits-and-pses.herokuapp.com%2Fauth%2Fgoogle%2Fredirect&flowName=GeneralOAuthFlow";
+
+export default baseRedirect;
