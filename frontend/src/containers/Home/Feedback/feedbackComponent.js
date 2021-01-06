@@ -47,11 +47,13 @@ class Feedback extends Component {
         isLoggedIn: true
       };
     }
-    window.localStorage.setItem("googleRedirect","/feedback");
-    window.localStorage.setItem("stationNo", "3");
     return null;
   }
 
+  handleLogin = () => {
+    window.localStorage.setItem("googleRedirect","/feedback");
+    window.localStorage.setItem("stationNo", "3");
+  }
 
   async handleSubmit(values) {
     console.log(values);
@@ -433,7 +435,7 @@ class Feedback extends Component {
                     Please login via your BITS email ID.
                   </h6>
                   <a href = "/auth/google">
-                    <Button className = "feedback-login-button mt-4 mb-4 mb-md-5" >Login</Button>
+                    <Button className = "feedback-login-button mt-4 mb-4 mb-md-5" onClick = {() => { this.handleLogin(); }} >Login</Button>
                   </a>
                 </div>
               </div>
