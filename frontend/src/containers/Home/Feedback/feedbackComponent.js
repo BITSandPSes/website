@@ -60,8 +60,9 @@ class Feedback extends Component {
       const cookies = document.cookie.split('; ');
       const value = cookies.find(item => item.startsWith('jwt')).split('=')[1];  //extracting bearer token from login cookie
       if( this.state.matchesSomeCourse ) {
+        const response;
         try{
-          const response = await axios({     //posting the comment request on backend
+            response = await axios({     //posting the comment request on backend
             method: 'post',
             url: baseUrl +  "/api/course/feedback" ,
             headers: {
