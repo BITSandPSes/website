@@ -107,11 +107,15 @@ router.post('/api/course/feedback', auth, async (req, res) => {
       return res.status(404).send('Course not found');
     }
 
-    const count = await Feedback.countDocuments({
-      user: req.user._id
-    })
+    const prev = await Feedback.find({ user: req.user._id });
 
-    if (count >= 3) {
+    const hasAlreadyFeedback = prev.find(f => String(f.course) === String(course._id))
+
+    if (hasAlreadyFeedback) {
+      return res.status(400).send('Cannot submit feedback for same course twice')
+    }
+
+    if (prev.length >= 3) {
       return res.status(400).send('Cannot submit more than 3 feedbacks');
     }
   

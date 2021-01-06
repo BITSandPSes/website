@@ -35,7 +35,7 @@ const adminBro = new AdminBro({
     Course,
     Feedback
   ],
-  rootPath: '/admin'
+  rootPath: '/hidden/admin'
 });
 
 const adminPanelRouter = AdminBroExpress.buildRouter(adminBro);
