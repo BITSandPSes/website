@@ -52,6 +52,7 @@ class Feedback extends Component {
 
   handleLogin = () => {
     window.localStorage.setItem("googleRedirect","/feedback");
+    window.localStorage.setItem("stationNo", "3");
   }
 
   async handleSubmit(values) {
