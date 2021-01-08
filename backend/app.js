@@ -35,10 +35,20 @@ const adminBro = new AdminBro({
     Course,
     Feedback
   ],
-  rootPath: '/hidden/admin'
+  rootPath: '/admin'
 });
 
-const adminPanelRouter = AdminBroExpress.buildRouter(adminBro);
+// const adminPanelRouter = AdminBroExpress.buildRouter(adminBro)
+const adminPanelRouter = AdminBroExpress.buildAuthenticatedRouter(adminBro, {
+  authenticate: async (email, password) => {
+    if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
+      const user = { email: email, password: password }
+      return user
+    }
+    return false
+  },
+  cookiePassword: process.env.SECRET_KEY
+})
 
 // routers
 const googleLoginRouter = require('./oauth2/googleAuthRouters');
