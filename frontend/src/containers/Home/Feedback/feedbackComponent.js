@@ -25,6 +25,7 @@ class Feedback extends Component {
       isLoggedIn: false,
       submitMore: true,
       noOfFeedbacks: 0,
+      pr: '',
       interestValue: 3,
       liteValue: 3,
       gradingValue: 3,
@@ -65,10 +66,11 @@ class Feedback extends Component {
             },
             data: {
               "course": this.state.course.courseSlug,
+              "pr": this.state.pr,
               "ratings": {
                 "experience": this.state.interestValue,
                 "lite": this.state.liteValue,
-                "grade": this.state.gradingValue
+                "grade": this.state.gradingValue,
               },
               "feedbacks": {
                 "good": values.goodFeedback,
@@ -111,6 +113,12 @@ class Feedback extends Component {
   onLiteChange = (value) => {
     this.setState({
       liteValue: value
+    });
+  }
+
+  handlePrChange = (e) => {
+    this.setState({
+      pr: e.target.value
     });
   }
 
@@ -206,7 +214,7 @@ class Feedback extends Component {
                className = "feedback-input form-control"
                name = "courseName"
                id = "courseName"
-               placeholder = "courseName"
+               placeholder = "Name of HuEl"
                onChange = {this.handleNameChange}
                value = {this.state.course.courseName}
                onFocus = { () => { this.setState({ showNameRec: true, showNoRec: false }); } } 
@@ -228,7 +236,7 @@ class Feedback extends Component {
                className = "feedback-input form-control"
                name = "courseNo"
                id = "courseNo"
-               placeholder = "courseNo"
+               placeholder = "Course number of Huel"
                onChange = {this.handleNumberChange}
                value = {this.state.course.courseNo}
                onFocus = { () => { this.setState({ showNoRec: true, showNameRec: false }); }}
@@ -239,6 +247,23 @@ class Feedback extends Component {
                click = {this.handleAutoFill} 
                display = {2}
                show = {this.state.showNoRec}/>
+            </Col>
+          </Row>
+          <Row className = "form-group align-items-end mt-4">
+            <Col xs={12} lg={3} className = "text-left text-lg-right offset-lg-1">
+              <Label htmlFor = "pr" className = "feedback-label mr-lg-0">Your PR number last sem</Label>
+            </Col>
+            <Col xs={12} lg={7} className = "mt-2 mt-lg-0">
+              <Control.text model = ".prNo"
+               className = "feedback-input form-control"
+               name = "pr"
+               id = "pr"
+               placeholder = "Will be used to provide availability range"
+               onChange = {this.handlePrChange}
+               value = {this.state.pr}
+               onFocus = { () => { this.setState({ showNameRec: false, showNoRec: false }); } } 
+               autoComplete = "off"
+               />
             </Col>
           </Row>
           <Row className = "form-group align-items-start mt-4 mt-lg-5">
