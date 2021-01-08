@@ -11,6 +11,10 @@ const feedbackSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Course'
     },
+    pr: {
+        required: true,
+        type: Number
+    },
     ratings: {
         experience: {
             type: Number,
