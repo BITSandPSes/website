@@ -305,7 +305,7 @@ class Feedback extends Component {
           <Row className = "form-group align-items-start mt-4">
             <Col xs={12} lg={4} className = "text-left text-lg-right">
               <Label htmlFor = "experience" className = "feedback-black-label">How lenient was the grading scheme? Rate 1
-              if very lenient and 5 for CDC level sadism.</Label>
+              if very lenient and 5 if very strict(lower C at average).</Label>
             </Col>
             <Col xs={12} lg={7} className = "mt-3 mt-lg-0 mb-4 mb-lg-0">
               <Slider
