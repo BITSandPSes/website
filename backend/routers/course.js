@@ -122,6 +122,7 @@ router.post('/api/course/feedback', auth, async (req, res) => {
     const feedback = new Feedback({
       user: req.user._id,
       course: course._id,
+      pr: req.body.pr,
       ratings: req.body.ratings,
       feedbacks: req.body.feedbacks
     })
