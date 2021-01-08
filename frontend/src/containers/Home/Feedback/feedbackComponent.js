@@ -287,7 +287,7 @@ class Feedback extends Component {
           <Row className = "form-group align-items-start mt-4">
             <Col xs={12} lg={4} className = "text-left text-lg-right">
               <Label htmlFor = "experience" className = "feedback-black-label">How lite was the course structure ? Rate its Liteness
-              while preparing for exams. (1-5)</Label>
+              while preparing for exams. (1-5) 5 if ulta lite.</Label>
             </Col>
             <Col xs={12} lg={7} className = "mt-3 mt-lg-0 mb-4 mb-lg-0">
               <Slider
@@ -305,7 +305,7 @@ class Feedback extends Component {
           <Row className = "form-group align-items-start mt-4">
             <Col xs={12} lg={4} className = "text-left text-lg-right">
               <Label htmlFor = "experience" className = "feedback-black-label">How lenient was the grading scheme? Rate 1
-              if very lenient and 5 if very strict(lower C at average).</Label>
+              if very strict(lower C at average) and 5 if extremely lenient.</Label>
             </Col>
             <Col xs={12} lg={7} className = "mt-3 mt-lg-0 mb-4 mb-lg-0">
               <Slider
