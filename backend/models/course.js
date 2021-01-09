@@ -91,6 +91,9 @@ courseSchema.methods.allData = async function () {
   course.lite = feedbacks.reduce((total, next) => total + next.ratings.lite, 0) / num_feedbacks;
   course.grade = feedbacks.reduce((total, next) => total + next.ratings.grade, 0) / num_feedbacks;
 
+  course.maxPR = feedbacks.reduce((a, b) => a.pr > b.pr ? a:b).pr
+  course.minPR = feedbacks.reduce((a, b) => a.pr < b.pr ? a:b).pr
+
   course.feedbacks = feedbacks;
 
   // find the course rank by number of feedbacks
