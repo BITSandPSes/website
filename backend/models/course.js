@@ -116,8 +116,6 @@ courseSchema.methods.allData = async function () {
     return b[1] - a[1];
   });
 
-  console.log(sortable)
-
   course.rank = sortable.filter(c => c[1] > feedbacks.length).length + 1
 
   return { course, users };
