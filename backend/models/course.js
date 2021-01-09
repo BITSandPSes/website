@@ -85,7 +85,15 @@ courseSchema.methods.allData = async function () {
   // populate the feedbacks
   const feedbacks = await Feedback.find({ course: this._id }).populate('user', 'name email').populate('course', 'title number');
 
-  return { course, users, feedbacks };
+  const num_feedbacks = feedbacks.length;
+
+  course.experience = feedbacks.reduce((total, next) => total + next.ratings.experience, 0) / num_feedbacks;
+  course.lite = feedbacks.reduce((total, next) => total + next.ratings.lite, 0) / num_feedbacks;
+  course.grade = feedbacks.reduce((total, next) => total + next.ratings.grade, 0) / num_feedbacks;
+
+  course.feedbacks = feedbacks;
+
+  return { course, users };
 };
 
 const Course = mongoose.model('Course', courseSchema);
