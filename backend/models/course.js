@@ -93,6 +93,33 @@ courseSchema.methods.allData = async function () {
 
   course.feedbacks = feedbacks;
 
+  // find the course rank by number of feedbacks
+  const all = await Feedback.find().lean();
+
+  const courses = {};
+
+  all.forEach(feedback => {
+    if (courses[feedback.course]) {
+      courses[feedback.course] += 1;
+    } else {
+      courses[feedback.course] = 1;
+    }
+  })
+
+
+  const sortable = [];
+  for (const course in courses) {
+    sortable.push([course, courses[course]]);
+  }
+
+  sortable.sort((a, b) => {
+    return b[1] - a[1];
+  });
+
+  console.log(sortable)
+
+  course.rank = sortable.filter(c => c[1] > feedbacks.length).length + 1
+
   return { course, users };
 };
 
