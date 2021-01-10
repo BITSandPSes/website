@@ -14,19 +14,17 @@ export const login = () => {
     }
 }
 
-export const logout = async() => {
+export const logout = () => {
     return (dispatch) => {
-        try {
-            const cookies = document.cookie.split('; ');
-            const value = cookies.find(item => item.startsWith('jwt')).split('=')[1];
-            const response = await axios({
-                url: baseUrl + '/auth/logout',
-                method: 'post',
-                headers: {
-                Authorization: `Bearer ${value}`
-                }
-            })
-
+        const cookies = document.cookie.split('; ');
+        const value = cookies.find(item => item.startsWith('jwt')).split('=')[1];
+        axios({
+            url: baseUrl + '/auth/logout',
+            method: 'post',
+            headers: {
+            Authorization: `Bearer ${value}`
+            }
+        }).then( response => {
             if(response.status === 200) {
                 document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
                 alert("you have been logged out");
@@ -36,9 +34,9 @@ export const logout = async() => {
                 error.response = response;
                 throw error;
             }
-        } catch(error) { 
+        }).catch(error => {
             alert("Could not logout.\nError: "+ error.message);
             dispatch({ type: actionTypes.LOGIN });
-        }; 
+        });
     };
 }
