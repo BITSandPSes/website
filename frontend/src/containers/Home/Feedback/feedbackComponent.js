@@ -11,9 +11,6 @@ import './feedback.css';
 import huelList from '../../../courses';
 import SearchRecc from './searchreccComponent/searchReccComponent';
 
-const required = (val) => val && val.length;
-const notCorrect = (parame) => (val) => parame;
-
 class Feedback extends Component {
   constructor(props) {
     super(props);
@@ -42,14 +39,14 @@ class Feedback extends Component {
     }
   }
 
-  static getDerivedStateFromProps() {
-    if(document.cookie.split(';').some((item) => item.trim().startsWith('jwt='))) {
-      return {
-        isLoggedIn: true
-      };
-    }
-    return null;
-  }
+  // static getDerivedStateFromProps() {
+  //   if(document.cookie.split(';').some((item) => item.trim().startsWith('jwt='))) {
+  //     return {
+  //       isLoggedIn: true
+  //     };
+  //   }
+  //   return null;
+  // }
 
   async handleSubmit(values) {
     console.log(values);
@@ -195,222 +192,185 @@ class Feedback extends Component {
 
 
   feedbackForm = () => {
-    if(this.state.submitMore) {
-      const marks = {
-        1: '1',
-        2: '2',
-        3: '3',
-        4: '4',
-        5: '5'
-      };
-      return(
-        <LocalForm className="px-3" model = "huel" onSubmit = {(values) => this.handleSubmit(values)} >
-          <Row className = "form-group align-items-end mt-4">
-            <Col xs={12} lg={3} className = "text-left text-lg-right offset-lg-1">
-              <Label htmlFor = "courseName" className = "feedback-label mr-lg-0">Course Name</Label>
-            </Col>
-            <Col xs={12} lg={7} className = "mt-2 mt-lg-0">
-              <Control.text model = ".courseName"
-               className = "feedback-input form-control"
-               name = "courseName"
-               id = "courseName"
-               placeholder = "Name of HuEl"
-               onChange = {this.handleNameChange}
-               value = {this.state.course.courseName}
-               onFocus = { () => { this.setState({ showNameRec: true, showNoRec: false }); } } 
-               autoComplete = "off"
-               />
-              <SearchRecc
-               list = {this.state.matchList} 
-               click = {this.handleAutoFill}
-               display = {1}
-               show = {this.state.showNameRec} />
-            </Col>
-          </Row>
-          <Row className = "form-group align-items-end mt-4">
-            <Col xs={12} lg={3} className = "text-left text-lg-right offset-lg-1">
-              <Label htmlFor = "courseNo" className = "feedback-label">Course No.</Label>
-            </Col>
-            <Col xs={12} lg={7} className = "mt-2 mt-lg-0">
-              <Control.text model = ".courseNo"
-               className = "feedback-input form-control"
-               name = "courseNo"
-               id = "courseNo"
-               placeholder = "Course number of Huel"
-               onChange = {this.handleNumberChange}
-               value = {this.state.course.courseNo}
-               onFocus = { () => { this.setState({ showNoRec: true, showNameRec: false }); }}
-               autoComplete = "off"
-               />
-              <SearchRecc
-               list = {this.state.matchList} 
-               click = {this.handleAutoFill} 
-               display = {2}
-               show = {this.state.showNoRec}/>
-            </Col>
-          </Row>
-          <Row className = "form-group align-items-end mt-4">
-            <Col xs={12} lg={3} className = "text-left text-lg-right offset-lg-1">
-              <Label htmlFor = "pr" className = "feedback-label mr-lg-0">Your PR number last sem</Label>
-            </Col>
-            <Col xs={12} lg={7} className = "mt-2 mt-lg-0">
-              <Control.text model = ".prNo"
-               className = "feedback-input form-control"
-               name = "pr"
-               id = "pr"
-               placeholder = "Will be used to provide availability range"
-               onChange = {this.handlePrChange}
-               value = {this.state.pr}
-               onFocus = { () => { this.setState({ showNameRec: false, showNoRec: false }); } } 
-               autoComplete = "off"
-               />
-            </Col>
-          </Row>
-          <Row className = "form-group align-items-start mt-4 mt-lg-5">
-            <Col xs={12} lg={4} className = "text-left text-lg-right">
-              <Label htmlFor = "experience" className = "feedback-black-label">Rate the overall experience of the course (1-5). 
-              How exciting or engaging did you find it to be ?</Label>
-            </Col>
-            <Col xs={12} lg={7} className = "mt-3 mt-lg-0 mb-4 mb-lg-0">
-              <Slider
-               className="feedback-slider"
-               marks={marks}
-               min={1}
-               max={5}
-               step={1}
-               onChange = {(value) => { this.onInterestChange(value); }}
-               value={this.state.interestValue} 
-               onFocus = { () => { this.setState({ showNameRec: false, showNoRec: false }); } }
-               />     
-            </Col>
-          </Row>
-          <Row className = "form-group align-items-start mt-4">
-            <Col xs={12} lg={4} className = "text-left text-lg-right">
-              <Label htmlFor = "experience" className = "feedback-black-label">How lite was the course structure ? Rate its Liteness
-              while preparing for exams. (1-5) 5 if ulta lite.</Label>
-            </Col>
-            <Col xs={12} lg={7} className = "mt-3 mt-lg-0 mb-4 mb-lg-0">
-              <Slider
-               className="feedback-slider"
-               marks={marks}
-               min={1}
-               max={5}
-               step={1}
-               onChange = {(value) => { this.onLiteChange(value); }}
-               value={this.state.liteValue} 
-               onFocus = { () => { this.setState({ showNameRec: false, showNoRec: false }); } }
-               />     
-            </Col>
-          </Row>
-          <Row className = "form-group align-items-start mt-4">
-            <Col xs={12} lg={4} className = "text-left text-lg-right">
-              <Label htmlFor = "experience" className = "feedback-black-label">How lenient was the grading scheme? Rate 1
-              if very strict(lower C at average) and 5 if extremely lenient.</Label>
-            </Col>
-            <Col xs={12} lg={7} className = "mt-3 mt-lg-0 mb-4 mb-lg-0">
-              <Slider
-               className="feedback-slider"
-               marks={marks}
-               min={1}
-               max={5}
-               step={1}
-               onChange = {(value) => { this.onGradingChange(value); }}
-               value={this.state.gradingValue} 
-               onFocus = { () => { this.setState({ showNameRec: false, showNoRec: false }); } }
-               />     
-            </Col>
-          </Row>
-          <Row className = "form-group align-items-center mt-4">
-            <Col xs={12} lg={3} className = "text-left text-lg-right offset-lg-1">
-              <Label htmlFor = "goodFeedback" className = "feedback-label">Positive feedback you could infer about
-              the course</Label>
-            </Col>
-            <Col xs={12} lg={7} className = "mt-2 mt-lg-0">
-              <Control.textarea model = ".goodFeedback"
-               className = "feedback-input form-control"
-               name = "goodFeedback"
-               id = "goodFeedback"
-               placeholder = ""
-               rows={5}
-               onFocus = { () => { this.setState({ showNameRec: false, showNoRec: false }); } }
-               />
-            </Col>
-          </Row>
-          <Row className = "form-group align-items-center mt-4">
-            <Col xs={12} lg={3} className = "text-left text-lg-right offset-lg-1">
-              <Label htmlFor = "badFeedback" className = "feedback-label">Anything you think could have been better</Label>
-            </Col>
-            <Col xs={12} lg={7} className = "mt-2 mt-lg-0">
-              <Control.textarea model = ".badFeedback"
-               className = "feedback-input form-control"
-               name = "badFeedback"
-               id = "badFeedback"
-               placeholder = ""
-               rows={5}
-               onFocus = { () => { this.setState({ showNameRec: false, showNoRec: false }); } }
-               />
-            </Col>
-          </Row>
-          <Row className = "form-group align-items-center mt-4">
-            <Col xs={12} lg={3} className = "text-left text-lg-right offset-lg-1">
-              <Label htmlFor = "gyaan" className = "feedback-label">Aage walon ke liye thoda gyaan peldo<br></br>
-              (Shed some light of knowledge)</Label>
-            </Col>
-            <Col xs={12} lg={7} className = "mt-2 mt-lg-0">
-              <Control.textarea model = ".gyaan"
-               className = "feedback-input form-control"
-               name = "gyaan"
-               id = "gyaan"
-               placeholder = ""
-               rows={5}
-               onFocus = { () => { this.setState({ showNameRec: false, showNoRec: false }); } }
-               />
-            </Col>
-          </Row>
-          <Row className="form-group my-4">
-            <Col xs={12} lg={7} className="offset-lg-4 text-center text-lg-left">
-              <Button type="submit" className = "feedback-submit-button">Submit</Button>
-            </Col>
-          </Row>
-        </LocalForm>
-      );
-    }
-    else {
-      this.handlelogout();
-      return(
-        <Redirect to = {'/' + this.props.match.url.split('/')[1] + '/home'} />
-      );
-    }
+    const marks = {
+      1: '1',
+      2: '2',
+      3: '3',
+      4: '4',
+      5: '5'
+    };
+    return(
+      <LocalForm className="px-3" model = "huel" onSubmit = {(values) => this.handleSubmit(values)} >
+        <Row className = "form-group align-items-end mt-4">
+          <Col xs={12} lg={3} className = "text-left text-lg-right offset-lg-1">
+            <Label htmlFor = "courseName" className = "feedback-label mr-lg-0">Course Name</Label>
+          </Col>
+          <Col xs={12} lg={7} className = "mt-2 mt-lg-0">
+            <Control.text model = ".courseName"
+              className = "feedback-input form-control"
+              name = "courseName"
+              id = "courseName"
+              placeholder = "Name of HuEl"
+              onChange = {this.handleNameChange}
+              value = {this.state.course.courseName}
+              onFocus = { () => { this.setState({ showNameRec: true, showNoRec: false }); } } 
+              autoComplete = "off"
+              />
+            <SearchRecc
+              list = {this.state.matchList} 
+              click = {this.handleAutoFill}
+              display = {1}
+              show = {this.state.showNameRec} />
+          </Col>
+        </Row>
+        <Row className = "form-group align-items-end mt-4">
+          <Col xs={12} lg={3} className = "text-left text-lg-right offset-lg-1">
+            <Label htmlFor = "courseNo" className = "feedback-label">Course No.</Label>
+          </Col>
+          <Col xs={12} lg={7} className = "mt-2 mt-lg-0">
+            <Control.text model = ".courseNo"
+              className = "feedback-input form-control"
+              name = "courseNo"
+              id = "courseNo"
+              placeholder = "Course number of Huel"
+              onChange = {this.handleNumberChange}
+              value = {this.state.course.courseNo}
+              onFocus = { () => { this.setState({ showNoRec: true, showNameRec: false }); }}
+              autoComplete = "off"
+              />
+            <SearchRecc
+              list = {this.state.matchList} 
+              click = {this.handleAutoFill} 
+              display = {2}
+              show = {this.state.showNoRec}/>
+          </Col>
+        </Row>
+        <Row className = "form-group align-items-end mt-4">
+          <Col xs={12} lg={3} className = "text-left text-lg-right offset-lg-1">
+            <Label htmlFor = "pr" className = "feedback-label mr-lg-0">Your PR number last sem</Label>
+          </Col>
+          <Col xs={12} lg={7} className = "mt-2 mt-lg-0">
+            <Control.text model = ".prNo"
+              className = "feedback-input form-control"
+              name = "pr"
+              id = "pr"
+              placeholder = "Will be used to provide availability range"
+              onChange = {this.handlePrChange}
+              value = {this.state.pr}
+              onFocus = { () => { this.setState({ showNameRec: false, showNoRec: false }); } } 
+              autoComplete = "off"
+              />
+          </Col>
+        </Row>
+        <Row className = "form-group align-items-start mt-4 mt-lg-5">
+          <Col xs={12} lg={4} className = "text-left text-lg-right">
+            <Label htmlFor = "experience" className = "feedback-black-label">Rate the overall experience of the course (1-5). 
+            How exciting or engaging did you find it to be ?</Label>
+          </Col>
+          <Col xs={12} lg={7} className = "mt-3 mt-lg-0 mb-4 mb-lg-0">
+            <Slider
+              className="feedback-slider"
+              marks={marks}
+              min={1}
+              max={5}
+              step={1}
+              onChange = {(value) => { this.onInterestChange(value); }}
+              value={this.state.interestValue} 
+              onFocus = { () => { this.setState({ showNameRec: false, showNoRec: false }); } }
+              />     
+          </Col>
+        </Row>
+        <Row className = "form-group align-items-start mt-4">
+          <Col xs={12} lg={4} className = "text-left text-lg-right">
+            <Label htmlFor = "experience" className = "feedback-black-label">How lite was the course structure ? Rate its Liteness
+            while preparing for exams. (1-5) 5 if ulta lite.</Label>
+          </Col>
+          <Col xs={12} lg={7} className = "mt-3 mt-lg-0 mb-4 mb-lg-0">
+            <Slider
+              className="feedback-slider"
+              marks={marks}
+              min={1}
+              max={5}
+              step={1}
+              onChange = {(value) => { this.onLiteChange(value); }}
+              value={this.state.liteValue} 
+              onFocus = { () => { this.setState({ showNameRec: false, showNoRec: false }); } }
+              />     
+          </Col>
+        </Row>
+        <Row className = "form-group align-items-start mt-4">
+          <Col xs={12} lg={4} className = "text-left text-lg-right">
+            <Label htmlFor = "experience" className = "feedback-black-label">How lenient was the grading scheme? Rate 1
+            if very strict(lower C at average) and 5 if extremely lenient.</Label>
+          </Col>
+          <Col xs={12} lg={7} className = "mt-3 mt-lg-0 mb-4 mb-lg-0">
+            <Slider
+              className="feedback-slider"
+              marks={marks}
+              min={1}
+              max={5}
+              step={1}
+              onChange = {(value) => { this.onGradingChange(value); }}
+              value={this.state.gradingValue} 
+              onFocus = { () => { this.setState({ showNameRec: false, showNoRec: false }); } }
+              />     
+          </Col>
+        </Row>
+        <Row className = "form-group align-items-center mt-4">
+          <Col xs={12} lg={3} className = "text-left text-lg-right offset-lg-1">
+            <Label htmlFor = "goodFeedback" className = "feedback-label">Positive feedback you could infer about
+            the course</Label>
+          </Col>
+          <Col xs={12} lg={7} className = "mt-2 mt-lg-0">
+            <Control.textarea model = ".goodFeedback"
+              className = "feedback-input form-control"
+              name = "goodFeedback"
+              id = "goodFeedback"
+              placeholder = ""
+              rows={5}
+              onFocus = { () => { this.setState({ showNameRec: false, showNoRec: false }); } }
+              />
+          </Col>
+        </Row>
+        <Row className = "form-group align-items-center mt-4">
+          <Col xs={12} lg={3} className = "text-left text-lg-right offset-lg-1">
+            <Label htmlFor = "badFeedback" className = "feedback-label">Anything you think could have been better</Label>
+          </Col>
+          <Col xs={12} lg={7} className = "mt-2 mt-lg-0">
+            <Control.textarea model = ".badFeedback"
+              className = "feedback-input form-control"
+              name = "badFeedback"
+              id = "badFeedback"
+              placeholder = ""
+              rows={5}
+              onFocus = { () => { this.setState({ showNameRec: false, showNoRec: false }); } }
+              />
+          </Col>
+        </Row>
+        <Row className = "form-group align-items-center mt-4">
+          <Col xs={12} lg={3} className = "text-left text-lg-right offset-lg-1">
+            <Label htmlFor = "gyaan" className = "feedback-label">Aage walon ke liye thoda gyaan peldo<br></br>
+            (Shed some light of knowledge)</Label>
+          </Col>
+          <Col xs={12} lg={7} className = "mt-2 mt-lg-0">
+            <Control.textarea model = ".gyaan"
+              className = "feedback-input form-control"
+              name = "gyaan"
+              id = "gyaan"
+              placeholder = ""
+              rows={5}
+              onFocus = { () => { this.setState({ showNameRec: false, showNoRec: false }); } }
+              />
+          </Col>
+        </Row>
+        <Row className="form-group my-4">
+          <Col xs={12} lg={7} className="offset-lg-4 text-center text-lg-left">
+            <Button type="submit" className = "feedback-submit-button">Submit</Button>
+          </Col>
+        </Row>
+      </LocalForm>
+    );
   }
-
-  handlelogout = async() => {
-    try {
-      const cookies = document.cookie.split('; ');
-      const value = cookies.find(item => item.startsWith('jwt')).split('=')[1];
-      const response = await axios({
-        url: baseUrl + '/auth/logout',
-        method: 'post',
-        headers: {
-          Authorization: `Bearer ${value}`
-        }
-      })
-
-      if(response.status === 200) {
-        document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-        window.sessionStorage.setItem("loggedin","0");
-        this.setState({
-          userLoggedin: false
-        });
-        alert("you have been logged out");
-      } else {
-        var error = new Error('Error ' + response.status + ': ' + response.statusText);
-        error.response = response;
-        throw error;
-      }
-    } catch(error) { 
-      alert("could not logout.\nError: "+ error.message);
-    }; 
-  };
 
   render() {
     if(this.state.anotherWindow) {
@@ -435,7 +395,7 @@ class Feedback extends Component {
       );
     }
     else {
-      if(this.state.isLoggedIn) {
+      if(this.props.loggedIn) {
         return(
           <div className = "envelope">
             <div className = "container">

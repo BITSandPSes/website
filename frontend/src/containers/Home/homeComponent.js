@@ -11,10 +11,19 @@ import ElecHeader from './ElecHeader/elecHeaderComponent'; //header component fo
 import Contact from './Contact/contactComponent'; //contact us page
 import Footer from './Footer/footerComponent'; //footer component 
 import HuelFeedback from './Feedback/feedbackComponent' ; //feedback component
+import { connect } from 'react-redux';
+import * as loginCreators from '../../store/actions/login';
 
 class Home extends Component {
   constructor(props) {
     super(props);
+  }
+
+  static getDerivedStateFromProps(nextProps, prevstate) {
+    if(document.cookie.split(';').some((item) => item.trim().startsWith('jwt='))) {
+      nextProps.handleLogin();
+    }
+    return null;
   }
 
   render() {
@@ -23,7 +32,11 @@ class Home extends Component {
     if(stationNo === 1 || stationNo === 2) {     //if ps stations want to be viewed
       return(
         <div>
-          <Header urlinfo = {this.props.match} />
+          <Header 
+           loggedIn = {this.props.loginHandle}
+           logout = {this.props.handleLogout}
+           urlinfo = {this.props.match}
+           location = {this.props.location} />
           <Switch>
             <Route path = {this.props.match.url + '/home' } component = {Homed} />
             <Route path = {this.props.match.url + '/contact' } component = {Contact} />
@@ -37,12 +50,18 @@ class Home extends Component {
     if( stationNo === 3) {                //if electives want to be viewed
       return(
         <div>
-          <ElecHeader urlinfo = {this.props.match} />
+          <ElecHeader 
+           loggedIn = {this.props.loginHandle} 
+           urlinfo = {this.props.match}
+           logout = {this.props.handleLogout}
+           location = {this.props.location} />
           <Switch>
             <Route path = {this.props.match.url + '/home' } component = {ElecHomed} />
             <Route path = {this.props.match.url + '/contact' } component = {Contact} />
             <Route path = {this.props.match.url + '/course/:courseSlug' } component = {CourseDisplay} />
-            <Route path = {this.props.match.url + '/feedback'} component = {HuelFeedback} />
+            <Route path = {this.props.match.url + '/feedback'} >
+              <HuelFeedback loggedIn = {this.props.loginHandle}  />
+            </Route>
             <Redirect to = {this.props.match.url + '/home'} />
           </Switch>
           <Footer />
@@ -57,4 +76,18 @@ class Home extends Component {
   }
 };
 
-export default Home;
+const mapStatetoProps = state => {    //accepts the present state of redux store as argument
+  return {
+    loginHandle: state.logStatus.loggedIn
+  };
+}
+
+const mapDispatchtoProps = dispatch => {    //gives access to functions that can manipulate redux store 
+  return {
+    handleLogin: () => dispatch(loginCreators.login()),
+    handleLogout: () => dispatch(loginCreators.logout())
+  }
+}
+
+//connect returns a function that returns a function for generating the higher order component
+export default connect( mapStatetoProps, mapDispatchtoProps )(Home);   //mapping redux state to this component's props

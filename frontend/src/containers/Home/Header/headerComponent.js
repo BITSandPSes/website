@@ -4,13 +4,13 @@ import { NavLink, Link } from 'react-router-dom';
 import axios from 'axios';
 import './header.css';
 import baseUrl from '../../../baseUrl';
+import authUrl from '../../../authRedirect';
 
 class Header extends Component {
 
   constructor(props) {
     super(props);
     this.loginHandle = this.loginHandle.bind(this);
-    this.handlelogout = this.handlelogout.bind(this);
     this.displayStationButton = this.displayStationButton.bind(this);
     this.state = {
       userLoggedin: true,
@@ -38,49 +38,17 @@ class Header extends Component {
     }
   }
   
-  handlelogout = async() => {
-    try {
-      const cookies = document.cookie.split('; ');
-      const value = cookies.find(item => item.startsWith('jwt')).split('=')[1];
-      const response = await axios({
-        url: baseUrl + '/auth/logout',
-        method: 'post',
-        headers: {
-          Authorization: `Bearer ${value}`
-        }
-      })
-
-      if(response.status === 200) {
-        document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-        window.sessionStorage.setItem("loggedin","0");
-        this.setState({
-          userLoggedin: false
-        });
-        alert("you have been logged out");
-      } else {
-        var error = new Error('Error ' + response.status + ': ' + response.statusText);
-        error.response = response;
-        throw error;
-      }
-    } catch(error) { 
-      alert("could not logout.\nError: "+ error.message);
-    }; 
-  };
-  
-  loginHandle = ({color}) => {
-    if (document.cookie.split(';').some((item) => item.trim().startsWith('jwt='))) {
-      window.sessionStorage.setItem("loggedin","1");
-    }
-    if(window.sessionStorage.getItem("loggedin") === "1")
+  loginHandle = ({color, loggedIn, logout, url}) => {
+    if(loggedIn)
     {
       return(
-        <Button className = {"btn nav-linker-" + color} onClick = {this.handlelogout}>LOGOUT</Button>  
+        <Button className = {"btn nav-linker-" + color} onClick = {logout}>LOGOUT</Button>  
       );
     }
     else {
       console.log(color);
       return(
-        <a href = { baseUrl + "/auth/google" } className = {"nav-linker-" + color}>LOGIN</a>
+        <a href = { authUrl + "&state=" + url } className = {"nav-linker-" + color}>LOGIN</a>
       );
     }
   };
@@ -94,6 +62,7 @@ class Header extends Component {
     else if(stationChoice === "2") {
       color = "blue";
     }
+    console.log(this.props);
     return(
       <Navbar light className = "white-bg-navbar fixed-top" expand = "md">
         <div className = "container">
@@ -123,7 +92,11 @@ class Header extends Component {
                   <NavLink className = {"nav-linker-" + color} to = "/3/home">ELECTIVES</NavLink>
                 </NavItem>
                 <NavItem className = "d-flex align-items-center nav-items my-3 my-md-0">
-                  <this.loginHandle color = {color}/>
+                  <this.loginHandle 
+                   color = {color}
+                   loggedIn = {this.props.loggedIn}
+                   logout = {this.props.logout}
+                   url = {this.props.location.pathname}/>
                 </NavItem>
               </Nav>
             </Collapse>

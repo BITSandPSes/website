@@ -4,13 +4,13 @@ import { Navbar, NavbarBrand, Nav, NavItem, Button, NavbarToggler, Collapse } fr
 import { NavLink, Link } from 'react-router-dom';
 import axios from 'axios';
 import baseUrl from '../../../baseUrl';
+import authUrl from '../../../authRedirect';
 
 class ElecHeader extends Component {
 
   constructor(props) {
     super(props);
     this.loginHandle = this.loginHandle.bind(this);
-    this.handlelogout = this.handlelogout.bind(this);
     this.state = {
       userLoggedin: true,
       isNavOpen: false,
@@ -23,49 +23,17 @@ class ElecHeader extends Component {
       isNavOpen: !this.state.isNavOpen
     });
   }
-   
-  handlelogout = async() => {
-    try {
-      const cookies = document.cookie.split('; ');
-      const value = cookies.find(item => item.startsWith('jwt')).split('=')[1];
-      const response = await axios({
-        url: baseUrl + '/auth/logout',
-        method: 'post',
-        headers: {
-          Authorization: `Bearer ${value}`
-        }
-      })
-
-      if(response.status === 200) {
-        document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
-        window.sessionStorage.setItem("loggedin","0");
-        this.setState({
-          userLoggedin: false
-        });
-        alert("you have been logged out");
-      } else {
-        var error = new Error('Error ' + response.status + ': ' + response.statusText);
-        error.response = response;
-        throw error;
-      }
-    } catch(error) { 
-      alert("could not logout.\nError: "+ error.message);
-    }; 
-  };
   
-  loginHandle = () => {
-    if (document.cookie.split(';').some((item) => item.trim().startsWith('jwt='))) {
-      window.sessionStorage.setItem("loggedin","1");
-    }
-    if(window.sessionStorage.getItem("loggedin") === "1")
+  loginHandle = ({loggedIn, logout, url}) => {
+    if(loggedIn)
     {
       return(
-        <Button className = "btn nav-linker" onClick = {this.handlelogout}>LOGOUT</Button>  
+        <Button className = "btn nav-linker" onClick = {logout}>LOGOUT</Button>  
       );
     }
     else {
       return(
-        <a href = "/auth/google" className = "nav-linker">LOGIN</a>
+        <a href = { authUrl + "&state=" + url } className = "nav-linker">LOGIN</a>
       );
     }
   };
@@ -95,9 +63,12 @@ class ElecHeader extends Component {
                 <NavItem className = "d-flex align-items-center nav-items my-3 my-md-0">
                   <Link className = "nav-linker" to = "/1/home" >STATIONS</Link>
                 </NavItem>
-                {/* <NavItem className = "d-flex align-items-center nav-items my-3 my-md-0">
-                  <this.loginHandle />
-                </NavItem> */}
+                <NavItem className = "d-flex align-items-center nav-items my-3 my-md-0">
+                  <this.loginHandle 
+                   loggedIn = {this.props.loggedIn}
+                   logout = {this.props.logout}
+                   url = {this.props.location.pathname}/>
+                </NavItem>
               </Nav>
             </Collapse>
         </div>
