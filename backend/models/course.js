@@ -83,9 +83,45 @@ courseSchema.methods.allData = async function () {
   }
 
   // populate the feedbacks
-  const feedbacks = await Feedback.find({ course: this._id });
+  const feedbacks = await Feedback.find({ course: this._id }).populate('user', 'name email').populate('course', 'title number');
 
-  return { course, users, feedbacks };
+  const num_feedbacks = feedbacks.length;
+
+  course.experience = feedbacks.reduce((total, next) => total + next.ratings.experience, 0) / num_feedbacks;
+  course.lite = feedbacks.reduce((total, next) => total + next.ratings.lite, 0) / num_feedbacks;
+  course.grade = feedbacks.reduce((total, next) => total + next.ratings.grade, 0) / num_feedbacks;
+
+  course.maxPR = feedbacks.reduce((a, b) => a.pr > b.pr ? a:b).pr
+  course.minPR = feedbacks.reduce((a, b) => a.pr < b.pr ? a:b).pr
+
+  course.feedbacks = feedbacks;
+
+  // find the course rank by number of feedbacks
+  const all = await Feedback.find().lean();
+
+  const courses = {};
+
+  all.forEach(feedback => {
+    if (courses[feedback.course]) {
+      courses[feedback.course] += 1;
+    } else {
+      courses[feedback.course] = 1;
+    }
+  })
+
+
+  const sortable = [];
+  for (const course in courses) {
+    sortable.push([course, courses[course]]);
+  }
+
+  sortable.sort((a, b) => {
+    return b[1] - a[1];
+  });
+
+  course.rank = sortable.filter(c => c[1] > feedbacks.length).length + 1
+
+  return { course, users };
 };
 
 const Course = mongoose.model('Course', courseSchema);
