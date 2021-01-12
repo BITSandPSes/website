@@ -9,6 +9,7 @@ const loginReducer = (state = initialState, action) => {
         case actionTypes.LOGIN :
             return { loggedIn: true }
         case actionTypes.LOGOUT :
+            alert('bruh');
             return { loggedIn: false }
         default:
             return state;

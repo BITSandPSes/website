@@ -14,7 +14,6 @@ import SearchRecc from './searchreccComponent/searchReccComponent';
 class Feedback extends Component {
   constructor(props) {
     super(props);
-    this.handlelogout = this.handlelogout.bind(this);
     this.feedbackForm = this.feedbackForm.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onInterestChange = this.onInterestChange.bind(this);

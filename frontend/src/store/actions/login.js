@@ -36,7 +36,6 @@ export const logout = () => {
             }
         }).catch(error => {
             alert("Could not logout.\nError: "+ error.message);
-            dispatch({ type: actionTypes.LOGIN });
         });
     };
 }

@@ -3,6 +3,7 @@ import { Route, withRouter, Switch } from 'react-router-dom';
 import Choose from './Choose/chooseComponent';
 import Home from './Home/homeComponent';
 
+
 //if anything is appended to the base url, client is redirected to sub-parts's home page ( not found dealt in home component only)
 //Otherwise, redirected to chooser component where localStorage is checked for client's past history on the website
 class Main extends Component {

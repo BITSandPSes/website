@@ -20,8 +20,10 @@ class Home extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevstate) {
+    console.log("should we log in");
     if(document.cookie.split(';').some((item) => item.trim().startsWith('jwt='))) {
       nextProps.handleLogin();
+      console.log("logged in");
     }
     return null;
   }

@@ -1,3 +1,3 @@
-const baseUrl = "https://bits-and-pses.herokuapp.com";
+const baseUrl = window.location.origin;
 
 export default baseUrl;

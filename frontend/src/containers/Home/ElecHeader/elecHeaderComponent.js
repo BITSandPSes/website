@@ -25,10 +25,11 @@ class ElecHeader extends Component {
   }
   
   loginHandle = ({loggedIn, logout, url}) => {
+    console.log(logout);
     if(loggedIn)
     {
       return(
-        <Button className = "btn nav-linker" onClick = {logout}>LOGOUT</Button>  
+        <Button className = "btn nav-linker" onClick = {() => { logout(); }}>LOGOUT</Button>  
       );
     }
     else {
