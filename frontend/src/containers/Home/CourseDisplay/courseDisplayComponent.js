@@ -152,6 +152,7 @@ class CourseDisplay extends Component {
   }
 
   render() {
+    console.log(this.state.courseDetails);
     window.localStorage.setItem("stationNo", "3");    
     if(this.state.courseFound === true) {   //check if course has been found (true default value so that notfound isnt shown while page reloads)
       let professors = [];   
@@ -174,14 +175,29 @@ class CourseDisplay extends Component {
         uniprofstring = uniprofstring + uniprofs[count];
         count++;
       }
+      let courseName = this.state.courseDetails.course.title;
+      let courseNo = this.state.courseDetails.course.number;
+      if(courseName != null) {
+        courseName = courseName.toLowerCase();
+      }
+      if(courseNo != null) {
+        courseNo = courseNo.trim();
+      }
       return(
         <div className = "envelope-sd">
           <SearchBar/>
-          <div className = "container">
-            <div className = "col-12 text-center pt-5">
-              <h1 className = "py-2 course-heading">{this.state.courseDetails.course.title}<h5 className = "location-heading pt-1">{this.state.courseDetails.course.number}</h5></h1>
+          <div className = "container course-container">
+            <div className="row">
+              <div className = "col-7 text-left">
+                <h1 className = "pt-2 course-number-heading mb-0">{this.state.courseDetails.course.number}</h1>
+                <h5 className = "course-heading">&nbsp;{courseName}</h5>
+              </div>
+              <div className = "col-5 text-right">
+                <h1 className = "popularity-index pt mb-0">4</h1>
+                <h5 className = "popular label">most Popular HuEl</h5>
+              </div>
             </div>
-            <div className = "col-12 text-left mb-3 mt-3">
+            {/* <div className = "col-12 text-left mb-3 mt-3">
               <div className = "course-description p-2">
                 <span className = "description-header display-inline-block">Instructor in-charge:&nbsp;</span>
                 <span className = "description-body display-inline-block">
@@ -194,7 +210,7 @@ class CourseDisplay extends Component {
                 <span className = "description-header">Description:&nbsp;</span>
                 <span className = "description-body"></span><br/>
               </div>
-            </div>
+            </div> */}
             <div className = "col-12">
             <h3 className = "col-12 sub-heading">Resources</h3>
             </div>
