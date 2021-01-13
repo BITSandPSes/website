@@ -85,6 +85,10 @@ courseSchema.methods.allData = async function () {
   // populate the feedbacks
   const feedbacks = await Feedback.find({ course: this._id }).populate('user', 'name email').populate('course', 'title number');
 
+  if (feedbacks.length === 0) {
+    return { course, users };
+  }
+
   const num_feedbacks = feedbacks.length;
 
   course.experience = feedbacks.reduce((total, next) => total + next.ratings.experience, 0) / num_feedbacks;

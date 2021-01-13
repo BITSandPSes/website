@@ -2,6 +2,7 @@ const express = require('express');
 const router = new express.Router();
 const auth = require('../middleware/auth');
 const Course = require('../models/course');
+const mongoose = require('mongoose');
 const Feedback = require('../models/feedback')
 
 // get details of a course
@@ -133,5 +134,48 @@ router.post('/api/course/feedback', auth, async (req, res) => {
     res.status(400).send(e.message);
   }
 })
+
+router.get('/api/huels', async (req, res) => {
+  try {
+    // find the course rank by number of feedbacks
+    const all = await Feedback.find().lean();
+
+    const courses = {};
+
+    all.forEach(feedback => {
+      if (courses[feedback.course]) {
+        courses[feedback.course] += 1;
+      } else {
+        courses[feedback.course] = 1;
+      }
+    })
+
+
+    const sortable = [];
+    for (const course in courses) {
+      sortable.push([course, courses[course]]);
+    }
+
+    sortable.sort((a, b) => {
+      return b[1] - a[1];
+    });
+
+    const final = [];
+
+    for (let i = 0; i < sortable.length; i++) {
+      const course = await Course.findOne({ _id: sortable[i][0] })
+      const o = {};
+      o.title = course.title;
+      o.number = course.number;
+      o.feedbacks = sortable[i][1];
+      final.push(o)
+    }
+    
+    res.send(final);
+  } catch(e) {
+    console.log(e);
+    res.status(500).send(e.message);
+  }
+}) 
 
 module.exports = router;
