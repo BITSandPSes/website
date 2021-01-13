@@ -314,17 +314,7 @@ class CourseDisplay extends Component {
                 <h5 className = "course-heading course-desc-highlight">&nbsp;Description</h5>
               </div>
               <div className = "col-9 text-left">
-                <p className = "taken-by-info">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse est enim,
-                 laoreet sed diam eu, tempor iaculis nisl. Suspendisse in odio sed urna viverra molestie.
-                  In consequat varius lectus a fringilla. Phasellus at est in nisi pellentesque
-                   consequat. Cras a leo ullamcorper, elementum odio non, molestie leo.
-                    Phasellus aliquam sapien id massa euismod, vel maximus tellus ultrices.
-                     Nulla vitae felis a enim sodales placerat in vitae eros. Cras quis tellus
-                      luctus sapien dignissim cursus vitae eu nulla. Aenean tincidunt ante quis 
-                      porttitor porttitor. Vivamus dapibus, risus at suscipit ornare, orci dui
-                       scelerisque quam, eget auctor ipsum diam vel dui. Morbi pellentesque eros
-                        quis sem laoreet eleifend. Cras et nunc velit. Praesent sit amet 
-                        tincidunt purus.</p>
+                <p className = "taken-by-info">We need your help in filling this field.</p>
               </div>
             </div>
             <div className = "row px-4 mt-5">
