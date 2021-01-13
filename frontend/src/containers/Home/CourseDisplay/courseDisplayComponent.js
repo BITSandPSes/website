@@ -272,10 +272,10 @@ class CourseDisplay extends Component {
         courseNo = courseNo.trim();
       }
       let follower = 'th';
-      if(this.state.courseDetails.course.rank === 1) {
+      if(this.state.courseDetails.course.rank % 10 === 1) {
         follower = 'st';
       }
-      if(this.state.courseDetails.course.rank === 2) {
+      if(this.state.courseDetails.course.rank % 10 === 2) {
         follower = 'nd';
       }
       let experience = this.state.courseDetails.course.experience;
