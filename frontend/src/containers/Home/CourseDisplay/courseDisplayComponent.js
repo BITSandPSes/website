@@ -7,6 +7,29 @@ import RenderComment from './courseComments/courseComments'; //component to disp
 import { withRouter } from 'react-router-dom';
 import SearchBar from '../searchCourseNav/searchCourseNavComponent'; //component that allows to search right from course page
 import baseUrl from '../../../baseUrl';   //for directing requests to backend
+import { CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
+
+const progressBarStyle = {
+  root: {
+   width: '100px'
+  },
+  path: {
+    stroke : '#2A9134',
+    strokeLinecap: 'round'
+  },
+  trail: {
+     strokeLinecap: 'round',
+     stroke: 'none'
+  },
+  text: {
+    fill: '#FAFAFA',
+    fontSize: '1.5rem'
+  },
+  background: {
+    fill: '#403D39'
+  }
+};
 
 function RenderComments ({list, authorlist, courseSlug}) {  //to render all comments in discussion container
   if(!list || list.length === 0) { 
@@ -42,6 +65,71 @@ function RenderComments ({list, authorlist, courseSlug}) {  //to render all comm
     );
   }
 };
+
+function RenderReviews ({list, display}) {
+  if(!list || list.length === 0) { 
+    return(
+      <div className = "review-comments"/>
+    );
+  }
+  if(display === 0) {
+    return(
+      <div className = "review-comments">
+        {list.map((feedbacker) => {
+          if(!feedbacker.feedbacks.good) {
+            return(
+              <div/>
+            );
+          }
+          return(
+            <div>
+              <h6 className = "review-comment-name text-left px-3 pt-4">{feedbacker.user.name}</h6>
+              <p className = "review-comment-content text-left px-3">{feedbacker.feedbacks.good}</p>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+  else if(display === 1) {
+    return(
+      <div className = "review-comments">
+        {list.map((feedbacker) => {
+          if(!feedbacker.feedbacks.bad) {
+            return(
+              <div/>
+            );
+          }
+          return(
+            <div>
+              <h6 className = "review-comment-name text-left px-3 pt-4">{feedbacker.user.name}</h6>
+              <p className = "review-comment-content text-left px-3">{feedbacker.feedbacks.bad}</p>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+  else {
+    return(
+      <div className = "review-comments">
+        {list.map((feedbacker) => {
+          if(!feedbacker.feedbacks.other === '') {
+            return(
+              <div/>
+            );
+          }
+          return(
+            <div>
+              <h6 className = "review-comment-name text-left px-3 pt-4">{feedbacker.user.name}</h6>
+              <p className = "review-comment-content text-left px-3">{feedbacker.feedbacks.other}</p>
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+}
 
 class CourseDisplay extends Component {
   constructor(props) {
@@ -183,18 +271,140 @@ class CourseDisplay extends Component {
       if(courseNo != null) {
         courseNo = courseNo.trim();
       }
+      let follower = 'th';
+      if(this.state.courseDetails.course.rank === 1) {
+        follower = 'st';
+      }
+      if(this.state.courseDetails.course.rank === 2) {
+        follower = 'nd';
+      }
+      let experience = this.state.courseDetails.course.experience;
+      let liteness = this.state.courseDetails.course.lite;
+      let grading = this.state.courseDetails.course.grade;
+      if(experience != null) {
+        experience = experience.toFixed(1);
+        liteness = liteness.toFixed(1);
+        grading = grading.toFixed(1);
+      }
       return(
         <div className = "envelope-sd">
           <SearchBar/>
           <div className = "container course-container">
-            <div className="row">
+            <div className="row px-4">
               <div className = "col-7 text-left">
                 <h1 className = "pt-2 course-number-heading mb-0">{this.state.courseDetails.course.number}</h1>
                 <h5 className = "course-heading">&nbsp;{courseName}</h5>
               </div>
               <div className = "col-5 text-right">
-                <h1 className = "popularity-index pt mb-0">4</h1>
-                <h5 className = "popular label">most Popular HuEl</h5>
+                <h1 className = "course-number-heading pt-2 mb-0">{this.state.courseDetails.course.rank}<span class="rank-designation">{follower}</span></h1>
+                <h5 className = "course-heading">most Popular HuEl</h5>
+              </div>
+            </div>
+            <div className = "row px-4">
+              <div className = "col-12 text-left">
+                <p className = "taken-by-info mt-5">
+                  &nbsp;Taken by <span className = "course-desc-highlight">{uniprofstring}</span>
+                  <br/>&nbsp;Instructor-in-Charge: <span className = "course-desc-highlight">{this.state.courseDesc.ic}</span>
+                  <br/>&nbsp;Credits on completion: <span className = "course-desc-highlight">{this.state.courseDesc.credits}</span>
+                </p>
+              </div>
+            </div>
+            <div className = "row px-4 mt-5">
+              <div className = "col-3 text-left">
+                <h5 className = "course-heading course-desc-highlight">&nbsp;Description</h5>
+              </div>
+              <div className = "col-9 text-left">
+                <p className = "taken-by-info">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse est enim,
+                 laoreet sed diam eu, tempor iaculis nisl. Suspendisse in odio sed urna viverra molestie.
+                  In consequat varius lectus a fringilla. Phasellus at est in nisi pellentesque
+                   consequat. Cras a leo ullamcorper, elementum odio non, molestie leo.
+                    Phasellus aliquam sapien id massa euismod, vel maximus tellus ultrices.
+                     Nulla vitae felis a enim sodales placerat in vitae eros. Cras quis tellus
+                      luctus sapien dignissim cursus vitae eu nulla. Aenean tincidunt ante quis 
+                      porttitor porttitor. Vivamus dapibus, risus at suscipit ornare, orci dui
+                       scelerisque quam, eget auctor ipsum diam vel dui. Morbi pellentesque eros
+                        quis sem laoreet eleifend. Cras et nunc velit. Praesent sit amet 
+                        tincidunt purus.</p>
+              </div>
+            </div>
+            <div className = "row px-4 mt-5">
+              <div className = "col-3 text-left">
+                <h5 className = "course-heading course-desc-highlight ml-1">Review by students</h5>
+              </div>
+              <div className = "col-9">
+                <div className = "row">
+                  <div className = "col-4">
+                    <div className = "col-12">
+                      <CircularProgressbar
+                      value={experience} 
+                      minValue={1}
+                      maxValue={5} 
+                      text = {experience} 
+                      className = "course-roundbar"
+                      background = {true}
+                      backgroundPadding = {0}
+                      styles = {progressBarStyle}/>
+                    </div>
+                    <div className = "col-12 mt-4">
+                      <p>Overall experience of the course</p>
+                    </div>
+                  </div>
+                  <div className = "col-4">
+                    <div className = "col-12">
+                      <CircularProgressbar
+                      value={liteness} 
+                      minValue={1}
+                      maxValue={5} 
+                      text = {liteness} 
+                      className = "course-roundbar"
+                      background = {true}
+                      backgroundPadding = {0}
+                      styles = {progressBarStyle} />
+                    </div>
+                    <div className = "col-12 mt-4">
+                      <p>How lite was the course (5 being easiest)</p>
+                    </div>
+                  </div>
+                  <div className = "col-4">
+                    <div className = "col-12">
+                      <CircularProgressbar
+                      value={grading} 
+                      minValue={1}
+                      maxValue={5} 
+                      text = {grading} 
+                      className = "course-roundbar"
+                      background = {true}
+                      backgroundPadding = {0}
+                      styles = {progressBarStyle}/>
+                    </div>
+                    <div className = "col-12 mt-4">
+                      <p>How satisfied were students with the grading</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className = "row px-4 my-5">
+              <div className = "col-4">
+                <div className = "review-comment-card">
+                  <h5 className = "review-comment-card-title py-3">What's good about it</h5>
+                  <RenderReviews list = {this.state.courseDetails.course.feedbacks}
+                   display = {0} />
+                </div>
+              </div>
+              <div className = "col-4">
+                <div className = "review-comment-card">
+                  <h5 className = "review-comment-card-title py-3">Somethings to be aware of</h5>
+                  <RenderReviews list = {this.state.courseDetails.course.feedbacks}
+                   display = {1} />
+                </div>
+              </div>
+              <div className = "col-4">
+                <div className = "review-comment-card">
+                  <h5 className = "review-comment-card-title py-3">Gyaan from those before you</h5>
+                  <RenderReviews list = {this.state.courseDetails.course.feedbacks}
+                   display = {2} />
+                </div>
               </div>
             </div>
             {/* <div className = "col-12 text-left mb-3 mt-3">
@@ -212,11 +422,11 @@ class CourseDisplay extends Component {
               </div>
             </div> */}
             <div className = "col-12">
-            <h3 className = "col-12 sub-heading">Resources</h3>
+            <h3 className = "col-12 elec-course-sub-heading">Resources</h3>
             </div>
-            <div className = "col-12">
-              <h3 className = "col-12 sub-heading">Discussion</h3>
-              <div className = "discussion-container">
+            <div className = "col-12 pb-4">
+              <h3 className = "col-12 elec-course-sub-heading">Discussion</h3>
+              <div className = "elec-discussion-container">
                 <RenderComments list = {this.state.courseDetails.course.discussion} 
                 authorlist = {this.state.courseDetails.users}
                 courseSlug = {this.props.match.params.courseSlug} />
