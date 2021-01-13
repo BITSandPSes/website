@@ -70,7 +70,7 @@ class CourseDisplay extends Component {
         { id: 16, value: "PHA", name: "Pharmacy", isChecked: false },
         { id: 17, value: "PHY", name: "Physics", isChecked: false },
       ],
-      searchMethod: "name",
+      searchMethod: "title",
       isfilterOpen: false
     }
   }
