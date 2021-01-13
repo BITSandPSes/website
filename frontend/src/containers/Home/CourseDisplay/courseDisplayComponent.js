@@ -114,7 +114,7 @@ function RenderReviews ({list, display}) {
     return(
       <div className = "review-comments">
         {list.map((feedbacker) => {
-          if(!feedbacker.feedbacks.other === '') {
+          if(!feedbacker.feedbacks.other) {
             return(
               <div/>
             );
