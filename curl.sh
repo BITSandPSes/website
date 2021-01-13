@@ -1,0 +1,1 @@
+curl -d "@test-feedback.json" -H "@header.txt" -H "Content-Type: application/json" -X POST http://localhost:8080/api/course/feedback
