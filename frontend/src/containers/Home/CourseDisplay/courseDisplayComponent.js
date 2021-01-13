@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './courseDisplay.css';
 import NotFound from '../../NotFound/notfoundComponent';
-import { FormGroup, Form, Input, Button} from 'reactstrap';
+import { FormGroup, Form, Input, Button, TabContent, TabPane, Nav, NavItem, NavLink} from 'reactstrap';
 import axios from 'axios';
 import RenderComment from './courseComments/courseComments'; //component to display each comment with its replies
 import { withRouter } from 'react-router-dom';
@@ -9,6 +9,7 @@ import SearchBar from '../searchCourseNav/searchCourseNavComponent'; //component
 import baseUrl from '../../../baseUrl';   //for directing requests to backend
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import classnames from 'classnames';
 
 const progressBarStyle = {
   root: {
@@ -66,15 +67,15 @@ function RenderComments ({list, authorlist, courseSlug}) {  //to render all comm
   }
 };
 
-function RenderReviews ({list, display}) {
+function RenderReviews ({list, display, mobile}) {
   if(!list || list.length === 0) { 
     return(
-      <div className = "review-comments"/>
+      <div className = {classnames({ 'review-comments': mobile === 0})}/>
     );
   }
   if(display === 0) {
     return(
-      <div className = "review-comments">
+      <div className =  {classnames({ 'review-comments': mobile === 0})}>
         {list.map((feedbacker) => {
           if(feedbacker.feedbacks) {
             if(!feedbacker.feedbacks.good) {
@@ -100,7 +101,7 @@ function RenderReviews ({list, display}) {
   }
   else if(display === 1) {
     return(
-      <div className = "review-comments">
+      <div className = {classnames({ 'review-comments': mobile === 0})}>
         {list.map((feedbacker) => {
             if(feedbacker.feedbacks) {
               if(!feedbacker.feedbacks.bad) {
@@ -126,7 +127,7 @@ function RenderReviews ({list, display}) {
   }
   else {
     return(
-      <div className = "review-comments">
+      <div className = {classnames({ 'review-comments': mobile === 0})}>
         {list.map((feedbacker) => {
           if(feedbacker.feedbacks) {
             if(!feedbacker.feedbacks.other) {
@@ -169,7 +170,8 @@ class CourseDisplay extends Component {
       commentField: null,             //stores and updates comment typed by the user after every change 
       courseDesc: {                   //stores all course data fetched from timetable api
         lectures: []                  //structure defined here to prevent initial callback failure
-      }
+      },
+      currentTab: 0
     }
   }
   
@@ -311,41 +313,44 @@ class CourseDisplay extends Component {
         <div className = "envelope-sd">
           <SearchBar/>
           <div className = "container course-container">
-            <div className="row px-4">
-              <div className = "col-7 text-left">
+            <div className="row px-2 px-lg-4">
+              <div className = "col-12 col-lg-7 text-left">
                 <h1 className = "pt-2 course-number-heading mb-0">{this.state.courseDetails.course.number}</h1>
                 <h5 className = "course-heading">&nbsp;{courseName}</h5>
               </div>
-              <div className = "col-5 text-right">
+              <div className = "d-none d-lg-inline-block col-5 text-lg-right">
                 <h1 className = "course-number-heading pt-2 mb-0">{this.state.courseDetails.course.rank}<span class="rank-designation">{follower}</span></h1>
                 <h5 className = "course-heading">most Popular HuEl</h5>
               </div>
+              <div className = "d-inline-block d-lg-none col-12 text-left">
+                <h5 className = "taken-by-info ml-1"><span className = "course-desc-highlight">{this.state.courseDetails.course.rank}{follower}</span>&nbsp; most popular Huel</h5>
+              </div>
             </div>
-            <div className = "row px-4">
+            <div className = "row px-2 px-lg-4">
               <div className = "col-12 text-left">
-                <p className = "taken-by-info mt-5">
-                  &nbsp;Taken by <span className = "course-desc-highlight">{uniprofstring}</span>
-                  <br/>&nbsp;Instructor-in-Charge: <span className = "course-desc-highlight">{this.state.courseDesc.ic}</span>
-                  <br/>&nbsp;Credits on completion: <span className = "course-desc-highlight">{this.state.courseDesc.credits}</span>
+                <p className = "taken-by-info mt-5 ml-1">
+                  Taken by <span className = "course-desc-highlight">{uniprofstring}</span>
+                  <br/>Instructor-in-Charge: <span className = "course-desc-highlight">{this.state.courseDesc.ic}</span>
+                  <br/>Credits on completion: <span className = "course-desc-highlight">{this.state.courseDesc.credits}</span>
                 </p>
               </div>
             </div>
-            <div className = "row px-4 mt-5">
-              <div className = "col-3 text-left">
-                <h5 className = "course-heading course-desc-highlight">&nbsp;Description</h5>
+            <div className = "row px-2 px-lg-4 mt-5">
+              <div className = "col-12 col-lg-3 text-left">
+                <h5 className = "course-heading course-desc-highlight ml-1">Description</h5>
               </div>
-              <div className = "col-9 text-left">
-                <p className = "taken-by-info">We need your help in filling this field.</p>
+              <div className = "col-12 col-lg-9 text-left">
+                <p className = "taken-by-info ml-1 ml-lg-0">We need your help in filling this field.</p>
               </div>
             </div>
-            <div className = "row px-4 mt-5">
-              <div className = "col-3 text-left">
+            <div className = "row px-2 px-lg-4 mt-5">
+              <div className = "col-12 col-lg-3 text-left">
                 <h5 className = "course-heading course-desc-highlight ml-1">Review by students</h5>
               </div>
-              <div className = "col-9">
+              <div className = "col-12 col-lg-9">
                 <div className = "row">
-                  <div className = "col-4">
-                    <div className = "col-12">
+                  <div className = "col-12 col-lg-4 row mt-4 mt-lg-0">
+                    <div className = "col-lg-12 col-4">
                       <CircularProgressbar
                       value={experience} 
                       minValue={1}
@@ -356,12 +361,12 @@ class CourseDisplay extends Component {
                       backgroundPadding = {0}
                       styles = {progressBarStyle}/>
                     </div>
-                    <div className = "col-12 mt-4">
+                    <div className = "col-lg-12 col-8 mt-4 text-left text-lg-center">
                       <p>Overall experience of the course</p>
                     </div>
                   </div>
-                  <div className = "col-4">
-                    <div className = "col-12">
+                  <div className = "col-12 col-lg-4 row mt-4 mt-lg-0">
+                    <div className = "col-lg-12 col-4">
                       <CircularProgressbar
                       value={liteness} 
                       minValue={1}
@@ -372,12 +377,12 @@ class CourseDisplay extends Component {
                       backgroundPadding = {0}
                       styles = {progressBarStyle} />
                     </div>
-                    <div className = "col-12 mt-4">
+                    <div className = "col-8 col-lg-12 mt-4 text-lg-center text-left">
                       <p>How lite was the course (5 being easiest)</p>
                     </div>
                   </div>
-                  <div className = "col-4">
-                    <div className = "col-12">
+                  <div className = "col-12 col-lg-4 row mt-4 mt-lg-0">
+                    <div className = "col-4 col-lg-12">
                       <CircularProgressbar
                       value={grading} 
                       minValue={1}
@@ -388,34 +393,83 @@ class CourseDisplay extends Component {
                       backgroundPadding = {0}
                       styles = {progressBarStyle}/>
                     </div>
-                    <div className = "col-12 mt-4">
+                    <div className = "col-8 col-lg-12 mt-4 text-lg-center text-left">
                       <p>How satisfied were students with the grading</p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className = "row px-4 my-5">
-              <div className = "col-4">
-                <div className = "review-comment-card">
-                  <h5 className = "review-comment-card-title py-3">What's good about it</h5>
-                  <RenderReviews list = {this.state.courseDetails.course.feedbacks}
-                   display = {0} />
+            <div className = "d-none d-lg-block">
+              <div className = "row px-4 my-5">
+                <div className = "col-4">
+                  <div className = "review-comment-card">
+                    <h5 className = "review-comment-card-title py-3">What's good about it</h5>
+                    <RenderReviews list = {this.state.courseDetails.course.feedbacks}
+                    display = {0}
+                    mobile = {0} />
+                  </div>
+                </div>
+                <div className = "col-4">
+                  <div className = "review-comment-card">
+                    <h5 className = "review-comment-card-title py-3">Somethings to be aware of</h5>
+                    <RenderReviews list = {this.state.courseDetails.course.feedbacks}
+                    display = {1}
+                    mobile = {0} />
+                  </div>
+                </div>
+                <div className = "col-4">
+                  <div className = "review-comment-card">
+                    <h5 className = "review-comment-card-title py-3">Gyaan from those before you</h5>
+                    <RenderReviews list = {this.state.courseDetails.course.feedbacks}
+                    display = {2}
+                    mobile = {0} />
+                  </div>
                 </div>
               </div>
-              <div className = "col-4">
-                <div className = "review-comment-card">
-                  <h5 className = "review-comment-card-title py-3">Somethings to be aware of</h5>
-                  <RenderReviews list = {this.state.courseDetails.course.feedbacks}
-                   display = {1} />
-                </div>
-              </div>
-              <div className = "col-4">
-                <div className = "review-comment-card">
-                  <h5 className = "review-comment-card-title py-3">Gyaan from those before you</h5>
-                  <RenderReviews list = {this.state.courseDetails.course.feedbacks}
-                   display = {2} />
-                </div>
+            </div>
+            <div className = "row px-2 my-5 d-block d-lg-none">
+              <div className = "col-12">
+                <Nav tabs>
+                  <NavItem>
+                    <NavLink className = {classnames({ active: this.state.currentTab === 0 }, 'review-tab')} 
+                     onClick = {() => { this.setState({ currentTab: 0 }); }} >Good</NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink className = {classnames({ active: this.state.currentTab === 1 }, 'review-tab')} 
+                     onClick = {() => { this.setState({ currentTab: 1 }); }} >Bad</NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink className = {classnames({ active: this.state.currentTab === 2 }, 'review-tab')} 
+                     onClick = {() => { this.setState({ currentTab: 2 }); }} >Gyaan</NavLink>
+                  </NavItem>
+                </Nav>
+                <TabContent activeTab = {this.state.currentTab}>
+                  <TabPane tabId = {0}>
+                    <div className = "review-comment-card">
+                      <h5 className = "review-comment-card-title py-3">What's good about it</h5>
+                      <RenderReviews list = {this.state.courseDetails.course.feedbacks}
+                      display = {0} 
+                      mobile = {1}/>
+                    </div>
+                  </TabPane>
+                  <TabPane tabId = {1}>
+                    <div className = "review-comment-card">
+                      <h5 className = "review-comment-card-title py-3">Somethings to be aware of</h5>
+                      <RenderReviews list = {this.state.courseDetails.course.feedbacks}
+                      display = {1} 
+                      mobile = {1}/>
+                    </div>
+                  </TabPane>
+                  <TabPane tabId = {2}>
+                    <div className = "review-comment-card">
+                      <h5 className = "review-comment-card-title py-3">Gyaan from those before you</h5>
+                      <RenderReviews list = {this.state.courseDetails.course.feedbacks}
+                      display = {2} 
+                      mobile = {1}/>
+                    </div>
+                  </TabPane>
+                </TabContent>
               </div>
             </div>
             {/* <div className = "col-12 text-left mb-3 mt-3">
@@ -432,8 +486,43 @@ class CourseDisplay extends Component {
                 <span className = "description-body"></span><br/>
               </div>
             </div> */}
+            <div className = "col-12 d-none d-lg-block">
+              <h3 className = "col-12 elec-course-sub-heading">Resources</h3>
+            </div>
+            <div className = "col-12 pb-4 d-none d-lg-block">
+              <h3 className = "col-12 elec-course-sub-heading">Discussion</h3>
+              <div className = "elec-discussion-container">
+                <RenderComments list = {this.state.courseDetails.course.discussion} 
+                authorlist = {this.state.courseDetails.users}
+                courseSlug = {this.props.match.params.courseSlug} />
+                <div class = "col-12 commenter">
+                  <Form autoComplete = "off" className = "col-12">
+                    <FormGroup row>
+                      <Input type = "text"
+                      name = "data"
+                      id = "data"
+                      className = "col-9 col-md-8 col-lg-9 col-xl-10 post-comment-input"
+                      placeholder = "Write comment"
+                      onChange = {(event) => {this.handleCommentChange(event) }}>
+                      </Input>
+                      <div className = "col-4 col-lg-3 col-xl-2 d-none d-md-block text-right">
+                        <Button onClick = {(event) =>{this.handleCommentSubmit(event)}} type = "submit" className = "post-button">Post Comment</Button>
+                      </div>
+                      <div className = "col-3 d-block d-md-none text-right">
+                        <Button onClick = {(event) =>{this.handleCommentSubmit(event)}} type = "submit" className = "post-button">
+                          <span className = "fa fa-caret-right"></span>
+                          <span className = "fa fa-caret-right"></span>
+                        </Button>
+                      </div>
+                    </FormGroup>
+                  </Form>  
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class = "d-block d-lg-none">
             <div className = "col-12">
-            <h3 className = "col-12 elec-course-sub-heading">Resources</h3>
+              <h3 className = "col-12 elec-course-sub-heading">Resources</h3>
             </div>
             <div className = "col-12 pb-4">
               <h3 className = "col-12 elec-course-sub-heading">Discussion</h3>
