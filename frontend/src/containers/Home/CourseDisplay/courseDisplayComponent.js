@@ -176,6 +176,7 @@ class CourseDisplay extends Component {
   }
   
   async componentDidMount() { 
+    window.scrollTo(0,0);
     const query = this.props.match.params.courseSlug;   //extracting courseSlug from url 
     try {
       const response = await fetch( baseUrl + '/api/course/' + query);  //fetching all the course details thru backend
