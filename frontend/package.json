@@ -25,8 +25,8 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "env-cmd -f ../config/dev.env react-scripts start",
-    "build": "env-cmd -f ../config/dev.env react-scripts build",
+    "start": " react-scripts start",
+    "build": " react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
