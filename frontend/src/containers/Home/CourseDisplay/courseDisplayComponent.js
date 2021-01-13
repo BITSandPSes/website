@@ -76,17 +76,24 @@ function RenderReviews ({list, display}) {
     return(
       <div className = "review-comments">
         {list.map((feedbacker) => {
-          if(!feedbacker.feedbacks.good) {
+          if(feedbacker.feedbacks) {
+            if(!feedbacker.feedbacks.good) {
+              return(
+                <div/>
+              );
+            }
+            return(
+              <div>
+                <h6 className = "review-comment-name text-left px-3 pt-4">{feedbacker.user.name}</h6>
+                <p className = "review-comment-content text-left px-3">{feedbacker.feedbacks.good}</p>
+              </div>
+            );
+          }
+          else {
             return(
               <div/>
             );
           }
-          return(
-            <div>
-              <h6 className = "review-comment-name text-left px-3 pt-4">{feedbacker.user.name}</h6>
-              <p className = "review-comment-content text-left px-3">{feedbacker.feedbacks.good}</p>
-            </div>
-          );
         })}
       </div>
     );
@@ -95,17 +102,24 @@ function RenderReviews ({list, display}) {
     return(
       <div className = "review-comments">
         {list.map((feedbacker) => {
-          if(!feedbacker.feedbacks.bad) {
-            return(
-              <div/>
-            );
-          }
-          return(
-            <div>
-              <h6 className = "review-comment-name text-left px-3 pt-4">{feedbacker.user.name}</h6>
-              <p className = "review-comment-content text-left px-3">{feedbacker.feedbacks.bad}</p>
-            </div>
-          );
+            if(feedbacker.feedbacks) {
+              if(!feedbacker.feedbacks.bad) {
+                return(
+                  <div/>
+                );
+              }
+              return(
+                <div>
+                  <h6 className = "review-comment-name text-left px-3 pt-4">{feedbacker.user.name}</h6>
+                  <p className = "review-comment-content text-left px-3">{feedbacker.feedbacks.bad}</p>
+                </div>
+              );
+            }
+            else {
+              return(
+                <div/>
+              );
+            }
         })}
       </div>
     );
@@ -114,17 +128,24 @@ function RenderReviews ({list, display}) {
     return(
       <div className = "review-comments">
         {list.map((feedbacker) => {
-          if(!feedbacker.feedbacks.other) {
+          if(feedbacker.feedbacks) {
+            if(!feedbacker.feedbacks.other) {
+              return(
+                <div/>
+              );
+            }
+            return(
+              <div>
+                <h6 className = "review-comment-name text-left px-3 pt-4">{feedbacker.user.name}</h6>
+                <p className = "review-comment-content text-left px-3">{feedbacker.feedbacks.other}</p>
+              </div>
+            );
+          }
+          else {
             return(
               <div/>
             );
           }
-          return(
-            <div>
-              <h6 className = "review-comment-name text-left px-3 pt-4">{feedbacker.user.name}</h6>
-              <p className = "review-comment-content text-left px-3">{feedbacker.feedbacks.other}</p>
-            </div>
-          );
         })}
       </div>
     );
