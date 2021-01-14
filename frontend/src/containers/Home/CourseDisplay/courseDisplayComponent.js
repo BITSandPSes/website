@@ -10,6 +10,7 @@ import baseUrl from '../../../baseUrl';   //for directing requests to backend
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import classnames from 'classnames';
+import { Link } from 'react-router-dom'
 
 const progressBarStyle = {
   root: {
@@ -322,9 +323,11 @@ class CourseDisplay extends Component {
               <div className = "d-none d-lg-inline-block col-5 text-lg-right">
                 <h1 className = "course-number-heading pt-2 mb-0">{this.state.courseDetails.course.rank}<span class="rank-designation">{follower}</span></h1>
                 <h5 className = "course-heading">most Popular HuEl</h5>
+                <p>based on number of feedbacks <Link to = "/3/feedback">(Submit yours)</Link></p>
               </div>
               <div className = "d-inline-block d-lg-none col-12 text-left">
                 <h5 className = "taken-by-info ml-1"><span className = "course-desc-highlight">{this.state.courseDetails.course.rank}{follower}</span>&nbsp; most popular Huel</h5>
+                <p className = "ml-1">based on number of feedbacks <Link to = "/3/feedback">(Submit yours)</Link></p>
               </div>
             </div>
             <div className = "row px-2 px-lg-4">

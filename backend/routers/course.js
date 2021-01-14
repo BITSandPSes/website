@@ -167,6 +167,7 @@ router.get('/api/huels', async (req, res) => {
       const o = {};
       o.title = course.title;
       o.number = course.number;
+      o.slug = course.slug;
       o.feedbacks = sortable[i][1];
       final.push(o)
     }

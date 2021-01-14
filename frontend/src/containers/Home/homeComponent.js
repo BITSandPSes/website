@@ -11,6 +11,7 @@ import ElecHeader from './ElecHeader/elecHeaderComponent'; //header component fo
 import Contact from './Contact/contactComponent'; //contact us page
 import Footer from './Footer/footerComponent'; //footer component 
 import HuelFeedback from './Feedback/feedbackComponent' ; //feedback component
+import HuelCombine from './HuelCombine/huelCombineComponent';
 import { connect } from 'react-redux';
 import * as loginCreators from '../../store/actions/login';
 
@@ -64,6 +65,7 @@ class Home extends Component {
             <Route path = {this.props.match.url + '/feedback'} >
               <HuelFeedback loggedIn = {this.props.loginHandle}  />
             </Route>
+            <Route path = {this.props.match.url + '/huels'} component = {HuelCombine} />
             <Redirect to = {this.props.match.url + '/home'} />
           </Switch>
           <Footer />
