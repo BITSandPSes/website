@@ -303,6 +303,9 @@ class CourseDisplay extends Component {
       if(this.state.courseDetails.course.rank % 10 === 2) {
         follower = 'nd';
       }
+      if(this.state.courseDetails.course.rank % 10 === 3) {
+        follower = 'rd';
+      }
       let experience = this.state.courseDetails.course.experience;
       let liteness = this.state.courseDetails.course.lite;
       let grading = this.state.courseDetails.course.grade;
