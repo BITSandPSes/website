@@ -7,6 +7,7 @@ import baseUrl from '../../../baseUrl';
 import { CSSTransition } from 'react-transition-group';
 import Select, {components} from 'react-select';
 import axios from 'axios';
+import Search from '../search/search'
 
 function ListDisplay ({list,title}) {
   console.log(list);
@@ -45,7 +46,6 @@ class CourseDisplay extends Component {
     this.findplaceholder = this.findplaceholder.bind(this);
     this.handleEmptytype = this.handleEmptytype.bind(this);
     this.loadMore = this.loadMore.bind(this);
-    this.handleSearchChange = this.handleSearchChange.bind(this);
     this.state = {
       options: [],
       searchData: null,
@@ -241,10 +241,6 @@ class CourseDisplay extends Component {
     }
   };
 
-  handleSearchChange = (course) => {
-    this.props.history.push(`/3/course/${course.value}`);
-  }
-
   handleEmptytype = (event) => {
     if(this.state.searchField === null || this.state.searchField === "") {
       event.preventDefault();
@@ -318,25 +314,13 @@ class CourseDisplay extends Component {
   }
 
   render() {
-    const DropdownIndicator = props => {
-      return (
-        <components.DropdownIndicator {...props}>
-          🔍
-        </components.DropdownIndicator>
-      );
-    };
     return(
       <div className = "envelope">
         <div className = "container">
           <div className = "row row-contents justify-content-center">
             <div className = { "col-11 elec-search-box" }>
               <div className = "search-bar-hold">
-                    <Select
-                      onChange={this.handleSearchChange}
-                      components={{ DropdownIndicator }}
-                      options={this.state.options}
-                      placeholder="Course"
-                    />
+                  <Search options = {this.state.options} loc = {'/3/course/'}/>
               </div>
             </div>
           </div>
