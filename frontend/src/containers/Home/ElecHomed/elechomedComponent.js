@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import CheckBox from './checkBoxComponent';
 import baseUrl from '../../../baseUrl';
 import { CSSTransition } from 'react-transition-group';
+import Select, {components} from 'react-select';
+import axios from 'axios';
 
 function ListDisplay ({list,title}) {
   console.log(list);
@@ -43,7 +45,9 @@ class CourseDisplay extends Component {
     this.findplaceholder = this.findplaceholder.bind(this);
     this.handleEmptytype = this.handleEmptytype.bind(this);
     this.loadMore = this.loadMore.bind(this);
+    this.handleSearchChange = this.handleSearchChange.bind(this);
     this.state = {
+      options: [],
       searchData: null,
       foundResults: false,
       topData: null,
@@ -99,6 +103,16 @@ class CourseDisplay extends Component {
     });
     console.log(this.props);
     try {
+      const { data } = await axios('/api/course');
+      data.forEach(course => {
+        this.state.options.push({
+          value: course.slug,
+          label: course.number + ' ' + course.title
+        })
+      })
+      this.setState({
+        options: this.state.options
+      })
       if(this.props.location.search !== "") {
         const query = this.props.location.search.split("=")[1].split("&")[0];
         const sender = this.props.location.search.split("=")[2];
@@ -227,6 +241,10 @@ class CourseDisplay extends Component {
     }
   };
 
+  handleSearchChange = (course) => {
+    this.props.history.push(`/3/course/${course.value}`);
+  }
+
   handleEmptytype = (event) => {
     if(this.state.searchField === null || this.state.searchField === "") {
       event.preventDefault();
@@ -300,53 +318,25 @@ class CourseDisplay extends Component {
   }
 
   render() {
+    const DropdownIndicator = props => {
+      return (
+        <components.DropdownIndicator {...props}>
+          🔍
+        </components.DropdownIndicator>
+      );
+    };
     return(
       <div className = "envelope">
         <div className = "container">
           <div className = "row row-contents justify-content-center">
             <div className = { "col-11 elec-search-box" }>
-              <h1 className = "search-heading text-left text-md-center">Search.</h1>
-              <h6 className = "elec-search-sub-text text-left text-md-center d-none d-md-block">
-              Find the course you are looking for according to the priorities you set.<br />
-              Search by name or courseNo, filter according to your preferences.
-              </h6>
-              <h6 className = "elec-search-sub-text text-left text-md-center d-block d-md-none">
-              We will try to find what you are looking for
-              </h6>
               <div className = "search-bar-hold">
-                <Form className = "row " autoComplete = "off">
-                  <div className = "col-12 col-md-8 offset-md-2 text-left text-md-center padding-remover">
-                  <Input type = "text"
-                    name = "Search"
-                    defaultValue = { this.findplaceholder() }
-                    placeholder = "Search"
-                    className = "home-search-bar"
-                    onChange = { (event) => {this.storeSearch(event)}} />
-                  </div>
-                  <div className = "col-6 col-md-4 offset-md-2 text-left text-md-left padding-remover">
-                    <FormGroup check inline className = "mt-4">
-                      <Label check className = "elec-label-font">
-                        <Input type = "radio"
-                         name = "searchMethod" 
-                         value = "title" 
-                         checked = { this.state.searchMethod === "title" }
-                         onChange = {this.changeSearchMethod} /> By Name
-                      </Label>
-                    </FormGroup>
-                    <FormGroup check inline className = "mt-4">
-                      <Label check className = "elec-label-font">
-                        <Input type = "radio" 
-                         name = "searchMethod" 
-                         value = "number"
-                         checked = { this.state.searchMethod === "number" } 
-                         onChange = {this.changeSearchMethod} /> By CourseNo.
-                      </Label>
-                    </FormGroup>
-                  </div>
-                  <div className = "col-6 col-md-4 text-right text-md-right padding-remover">
-                    <Button className = "elec-search-button mt-4 ml-md-3" onClick = {(event) => { this.handleEmptytype(event) }} type = "submit" >Search</Button>
-                  </div>
-                </Form>
+                    <Select
+                      onChange={this.handleSearchChange}
+                      components={{ DropdownIndicator }}
+                      options={this.state.options}
+                      placeholder="Course"
+                    />
               </div>
             </div>
           </div>
