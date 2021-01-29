@@ -20,6 +20,8 @@ class Search extends Component {
   }
 
   render() {
+    console.log(this.state)
+
     if (this.state.redirect) {
       return(
         <Redirect to = {this.state.loc + this.state.redirect}/>
