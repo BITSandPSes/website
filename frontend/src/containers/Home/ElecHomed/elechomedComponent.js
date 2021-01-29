@@ -15,7 +15,7 @@ class CourseDisplay extends Component {
       showing: [],
       options: [],
       resultTitle: 'Courses',
-      courses: [
+      branches: [
         { id: 1, value: "BITS", name: "General", isChecked: false},
         { id: 2, value: "BIO|BIOT", name: "Biology", isChecked: false },
         { id: 3, value: "CE", name: "Civil", isChecked: false },
@@ -74,7 +74,7 @@ class CourseDisplay extends Component {
   }
 
   toggleCheck = (event) => {
-    let courses = this.state.courses;
+    let courses = this.state.branches;
     if(event.target.checked) {
       this.setState({
         allCheck: true,
@@ -97,12 +97,12 @@ class CourseDisplay extends Component {
   }
 
   handleCheckChild = (event) => {
-    console.log(this.state.courses, new RegExp(event.target.value))
-    const toggled = this.state.courses.filter(c => c.value === event.target.value)[0]
+    console.log(this.state.branches, new RegExp(event.target.value))
+    const toggled = this.state.branches.filter(c => c.value === event.target.value)[0]
     toggled.isChecked = event.target.checked;
 
     this.setState({
-      courses: this.state.courses
+      courses: this.state.branches
     });
 
     if (event.target.checked) {
@@ -112,7 +112,7 @@ class CourseDisplay extends Component {
       })
     } else {
       this.setState({
-        showing: this.state.showing.filter((course) => course.number.split(' ')[0] != event.target.value)
+        showing: this.state.showing.filter((course) => !course.number.split(' ')[0].match(new RegExp(event.target.value)))
       })
     }
   }
@@ -139,7 +139,7 @@ class CourseDisplay extends Component {
                       <Input value = "checked-all" type = "checkbox" checked = {this.state.allCheck} onClick = {(event) => {this.toggleCheck(event)}} />Select All
                   </Label>
                 </FormGroup>
-                { this.state.courses.map((course => {
+                { this.state.branches.map((course => {
                   return(
                     <CheckBox {...course} handleCheckChild = {this.handleCheckChild} />
                   );
@@ -184,7 +184,7 @@ class CourseDisplay extends Component {
                               <Input value = "checked-all" type = "checkbox" checked = {this.state.allCheck} onClick = {(event) => {this.toggleCheck(event)}} />Select All
                           </Label>
                         </FormGroup>
-                        { this.state.courses.map((course => {
+                        { this.state.branches.map((course => {
                           return(
                             <CheckBox {...course} handleCheckChild = {this.handleCheckChild} />
                           );
