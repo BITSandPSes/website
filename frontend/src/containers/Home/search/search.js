@@ -24,7 +24,9 @@ class Search extends Component {
 
     if (this.state.redirect) {
       return(
-        <Redirect to = {this.state.loc + this.state.redirect}/>
+        // this should have been internal redirect but component does not render again
+        window.location.href = this.state.loc +  this.state.redirect
+        // <Redirect to = {this.state.loc + this.state.redirect}/>
       )
     }
 
