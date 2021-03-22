@@ -4,8 +4,6 @@ import "./elecHomed.css";
 import CheckBox from './checkBoxComponent';
 import { CSSTransition } from 'react-transition-group';
 import axios from 'axios';
-import Search from '../search/search'
-import ListDisplay from './list'
 import SearchResults from "react-filter-search";
 import { Link } from 'react-router-dom';
 
@@ -45,17 +43,8 @@ class CourseDisplay extends Component {
     try {
       const { data } = await axios('/api/course');
 
-      const options = [];
-      data.forEach(course => {
-        options.push({
-          value: course.slug,
-          label: course.number + ' ' + course.title
-        })
-      });
-
       this.setState({
         all: data,
-        options: options
       });
 
       console.log(this.state)
@@ -133,7 +122,7 @@ class CourseDisplay extends Component {
             <div className = { "col-11 elec-search-box" }>
               <div className = "search-bar-hold">
               <input
-                placeholder="Search for stocks"
+                placeholder="Search for course"
                 type="text"
                 value={this.state.value}
                 onChange={this.handleSearchChange}
@@ -167,14 +156,12 @@ class CourseDisplay extends Component {
                   renderResults={results => (
                     <div>
                       {results.map(item => (
-                        <li>
-                          <Link className="station-linker" to={'/' + window.localStorage.getItem("stationNo") + '/course/' + item.slug} >
+                          <Link className="station-linker" to={'/3/course/' + item.slug} >
                             <div className="my-3 mx-2 station-links">
                               <h5 className={"text-left elec-station-link-header"}>{item.title}</h5>
                               <h6 className="location-station text-left">{"Number: " + item.number}</h6>
                             </div>
                           </Link>
-                        </li>
                       ))}
                     </div>
                   )}
