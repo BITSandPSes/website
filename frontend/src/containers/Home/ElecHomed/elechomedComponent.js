@@ -6,11 +6,14 @@ import { CSSTransition } from 'react-transition-group';
 import axios from 'axios';
 import Search from '../search/search'
 import ListDisplay from './list'
+import SearchResults from "react-filter-search";
+import { Link } from 'react-router-dom';
 
 class CourseDisplay extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      value: "",
       all: [],
       showing: [],
       options: [],
@@ -117,6 +120,11 @@ class CourseDisplay extends Component {
     }
   }
 
+  handleSearchChange = (event) => {
+    const { value } = event.target;
+    this.setState({ value });
+  };
+
   render() {
     return(
       <div className = "envelope">
@@ -124,7 +132,12 @@ class CourseDisplay extends Component {
           <div className = "row row-contents justify-content-center">
             <div className = { "col-11 elec-search-box" }>
               <div className = "search-bar-hold">
-                  <Search key = { this.state.options }options = {this.state.options} loc = {'/3/course/'}/>
+              <input
+                placeholder="Search for stocks"
+                type="text"
+                value={this.state.value}
+                onChange={this.handleSearchChange}
+              />
               </div>
             </div>
           </div>
@@ -148,9 +161,23 @@ class CourseDisplay extends Component {
             </div>
             <div className = "col-6 offset-1 results-box mb-4">
               <div>
-                <ListDisplay 
-                 list = {this.state.showing} 
-                 title = {this.state.resultTitle} 
+                <SearchResults
+                  value={this.state.value}
+                  data={this.state.showing}
+                  renderResults={results => (
+                    <div>
+                      {results.map(item => (
+                        <li>
+                          <Link className="station-linker" to={'/' + window.localStorage.getItem("stationNo") + '/course/' + item.slug} >
+                            <div className="my-3 mx-2 station-links">
+                              <h5 className={"text-left elec-station-link-header"}>{item.title}</h5>
+                              <h6 className="location-station text-left">{"Number: " + item.number}</h6>
+                            </div>
+                          </Link>
+                        </li>
+                      ))}
+                    </div>
+                  )}
                 />
               </div>
             </div>
@@ -201,9 +228,23 @@ class CourseDisplay extends Component {
           <div className = "justify-content-center row row-contents d-flex d-lg-none">
             <div className = "col-11 results-box mb-4">
               <div>
-                <ListDisplay 
-                  list = {this.state.showing} 
-                  title = {this.state.resultTitle} 
+                <SearchResults
+                  value={this.state.value}
+                  data={this.state.showing}
+                  renderResults={results => (
+                    <div>
+                      {results.map(item => (
+                        <li>
+                          <Link className="station-linker" to={'/' + window.localStorage.getItem("stationNo") + '/course/' + item.slug} >
+                            <div className="my-3 mx-2 station-links">
+                              <h5 className={"text-left elec-station-link-header"}>{item.title}</h5>
+                              <h6 className="location-station text-left">{"Number: " + item.number}</h6>
+                            </div>
+                          </Link>
+                        </li>
+                      ))}
+                    </div>
+                  )}
                 />
               </div>
             </div>
