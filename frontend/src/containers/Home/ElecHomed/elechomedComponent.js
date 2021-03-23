@@ -6,13 +6,16 @@ import { CSSTransition } from 'react-transition-group';
 import axios from 'axios';
 import SearchResults from "react-filter-search";
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import * as courseCreators from '../../../store/actions/courses';
+
 
 class CourseDisplay extends Component {
   constructor(props) {
     super(props);
     this.state = {
       value: "",
-      all: [],
+      all: undefined,
       showing: [],
       options: [],
       resultTitle: 'Courses',
@@ -40,19 +43,20 @@ class CourseDisplay extends Component {
   }
 
   async componentDidMount() {
-    try {
-      const { data } = await axios('/api/course');
-
-      this.setState({
-        all: data,
-      });
-
-      console.log(this.state)
-      const event = { target: { checked: true }}
-      this.toggleCheck(event);
-    } catch(error) {
-      alert("could not fetch search results.\nError: "+ error.message);
+    console.log(this.props);
+    if(!this.props.isFetched) {
+      this.props.fetchList();
     }
+  }
+
+  listUpdate = async() => {
+    console.log(this.props);
+    await this.setState({
+      all: this.props.list
+    });
+    console.log(this.state);
+    const event = { target: { checked: true }}
+    this.toggleCheck(event);
   }
 
   handleFilters = (event) => {
@@ -115,6 +119,10 @@ class CourseDisplay extends Component {
   };
 
   render() {
+    console.log(this.state);
+    if(this.state.all === undefined && this.props.isFetched) {
+      this.listUpdate();
+    }
     return(
       <div className = "envelope">
         <div className = "container">
@@ -242,4 +250,10 @@ class CourseDisplay extends Component {
   }
 };
 
-export default CourseDisplay;
+const mapDispatchtoProps = (dispatch) => {
+  return {
+    fetchList: () => dispatch(courseCreators.courseFetch())
+  }
+}
+
+export default connect(null,mapDispatchtoProps)(CourseDisplay);

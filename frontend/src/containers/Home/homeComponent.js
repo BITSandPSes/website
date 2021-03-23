@@ -41,7 +41,14 @@ class Home extends Component {
            urlinfo = {this.props.match}
            location = {this.props.location} />
           <Switch>
-            <Route path = {this.props.match.url + '/home' } component = {Homed} />
+            <Route path = {this.props.match.url + '/home' } >
+              <Homed isFetched = {this.props.stationListFetched}
+                list = {this.props.stationsList}
+                isLoading = {this.props.stationsLoading}
+                fetchError = {this.props.stationsError}
+                stationIndex = {this.props.stationIndex}
+              />
+            </Route>
             <Route path = {this.props.match.url + '/contact' } component = {Contact} />
             <Route path = {this.props.match.url + '/station/:stationName'} component = {StationDisplay}/>
             <Redirect to = {this.props.match.url + '/home'} />
@@ -59,7 +66,14 @@ class Home extends Component {
            logout = {this.props.handleLogout}
            location = {this.props.location} />
           <Switch>
-            <Route path = {this.props.match.url + '/home' } component = {ElecHomed} />
+            <Route path = {this.props.match.url + '/home' } >
+              <ElecHomed 
+                isFetched = {this.props.courseListFetched}
+                list = {this.props.coursesList}
+                isLoading = {this.props.coursesLoading}
+                fetchError = {this.props.coursesError}
+              />              
+            </Route>
             <Route path = {this.props.match.url + '/contact' } component = {Contact} />
             <Route path = {this.props.match.url + '/course/:courseSlug' } component = {CourseDisplay} />
             <Route path = {this.props.match.url + '/feedback'} >
@@ -82,7 +96,16 @@ class Home extends Component {
 
 const mapStatetoProps = state => {    //accepts the present state of redux store as argument
   return {
-    loginHandle: state.logStatus.loggedIn
+    loginHandle: state.logStatus.loggedIn,
+    coursesList: state.courseStatus.data,
+    coursesError: state.courseStatus.error,
+    coursesLoading: state.courseStatus.loading,
+    courseListFetched: state.courseStatus.dataFetched,
+    stationsList: state.stationStatus.data,
+    stationsLoading: state.stationStatus.loading,
+    stationsError: state.stationStatus.error,
+    stationListFetched: state.stationStatus.dataFetched,
+    stationIndex: state.stationStatus.index
   };
 }
 
