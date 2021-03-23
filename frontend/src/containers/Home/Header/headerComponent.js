@@ -5,6 +5,8 @@ import axios from 'axios';
 import './header.css';
 import baseUrl from '../../../baseUrl';
 import authUrl from '../../../authRedirect';
+import { connect } from 'react-redux';
+import * as stationCreators from '../../../store/actions/stations';
 
 class Header extends Component {
 
@@ -33,7 +35,7 @@ class Header extends Component {
     }
     else {
       return(
-        <Link to = { '/' + num + '/home' } className = "btn toggle-head-grey">PS{num}</Link>
+        <Link onClick = { () => { this.props.fetchList(window.localStorage.getItem("stationNo")); }} to = { '/' + num + '/home' } className = "btn toggle-head-grey">PS{num}</Link>
       );
     }
   }
@@ -108,4 +110,10 @@ class Header extends Component {
 
 };
 
-export default Header;
+const mapDispatchtoProps = (dispatch) => {
+  return {
+    fetchList: (index) => dispatch(stationCreators.stationFetch(index))
+  }
+}
+
+export default connect(null, mapDispatchtoProps)(Header);

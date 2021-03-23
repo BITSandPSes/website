@@ -3,6 +3,9 @@ import "./homed.css";
 import { Link } from 'react-router-dom';
 import SearchResults from "react-filter-search";
 import axios from 'axios';
+import { connect } from 'react-redux';
+import * as stationCreators from '../../../store/actions/stations';
+import { withRouter } from 'react-router-dom';
 
 class Homed extends Component {
   constructor(props) {
@@ -13,25 +16,34 @@ class Homed extends Component {
     };
   }
 
-  fetchStations = async () => {
-    try {
-      const { data } = await axios('/api/'+window.localStorage.getItem("stationNo"));
-      this.setState({
-        all: data,
-      });
-    } catch(error) {
-      alert("could not fetch search results.\nError: "+ error.message);
+  static getDerivedStateFromProps(nextProps,prevState) {
+    if(nextProps.list !== undefined) {
+      return {
+        all: nextProps.list
+      };
     }
   }
 
   async componentDidUpdate(prevProps) {
-    if(prevProps.location.key !== this.props.location.key) {
-      await this.fetchStations();
+    console.log(this.props);
+    if(this.props.stationIndex !== window.localStorage.getItem("stationNo")) {
+      this.props.fetchList(window.localStorage.getItem("stationNo"));
     }
   }
 
   async componentDidMount() {
-    await this.fetchStations();
+    console.log(this.props);
+    if(!this.props.isFetched || (this.props.stationIndex !== window.localStorage.getItem("stationNo"))) {
+      this.props.fetchList(window.localStorage.getItem("stationNo"));
+    }
+  }
+
+  listUpdate = async() => {
+    console.log(this.props);
+    await this.setState({
+      all: this.props.list
+    });
+    console.log(this.state);
   }
 
   handleSearchChange = (event) => {
@@ -124,4 +136,10 @@ class Homed extends Component {
   }
 };
 
-export default Homed;
+const mapDispatchtoProps = (dispatch) => {
+  return {
+    fetchList: (index) => dispatch(stationCreators.stationFetch(index))
+  }
+}
+
+export default connect(null, mapDispatchtoProps)(withRouter(Homed));

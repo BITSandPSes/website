@@ -9,11 +9,15 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import { combineReducers, compose } from 'redux';
 import loginReducer from './store/reducers/login'; 
+import courseReducer from './store/reducers/courses'; 
+import stationReducer from './store/reducers/stations'; 
 import thunk from 'redux-thunk';
 
 
 const rootReducer = combineReducers({
-  logStatus: loginReducer
+  logStatus: loginReducer,
+  courseStatus: courseReducer,
+  stationStatus: stationReducer
 });
 
 
