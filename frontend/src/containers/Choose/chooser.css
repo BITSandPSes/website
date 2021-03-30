@@ -92,10 +92,6 @@
     color: #403D39;
 }
 
-.bg-pattern {
-    background-image: url(../../shared/ps\ bg\ pattern.png);
-    background-repeat: repeat;
-}
 
 .chooser-buttons {
     margin-top: 12vh;

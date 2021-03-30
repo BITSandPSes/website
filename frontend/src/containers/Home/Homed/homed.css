@@ -92,6 +92,8 @@
     font-family: 'Ubuntu', serif !important;
     font-weight: 300 !important;
     height: 40px !important;
+    width: 100% !important;
+    padding-left: 15px;
 }
 
 .search-button {

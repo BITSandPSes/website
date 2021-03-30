@@ -129,12 +129,25 @@ class CourseDisplay extends Component {
           <div className = "row row-contents justify-content-center">
             <div className = { "col-11 elec-search-box" }>
               <div className = "search-bar-hold">
-              <input
-                placeholder="Search for course"
-                type="text"
-                value={this.state.value}
-                onChange={this.handleSearchChange}
-              />
+                <h1 className = "search-heading text-left text-md-center">Search.</h1>
+                <h6 className = "elec-search-sub-text text-left text-md-center d-none d-md-block">
+                Find the course you are looking for according to the priorities you set.<br />
+                Search by name or courseNo, filter according to your preferences.
+                </h6>
+                <h6 className = "elec-search-sub-text text-left text-md-center d-block d-md-none">
+                We will try to find what you are looking for
+                </h6>
+                <div className = "search-bar-hold">
+                  <div className = "col-12 col-md-8 offset-md-2 text-left text-md-center padding-remover">
+                    <input
+                      placeholder="Search for course"
+                      type="text"
+                      value={this.state.value}
+                      onChange={this.handleSearchChange}
+                      className = "home-search-bar"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>

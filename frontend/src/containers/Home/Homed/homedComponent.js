@@ -65,12 +65,25 @@ class Homed extends Component {
         <div className = "container">
           <div className = "row row-contents justify-content-center">
             <div className = { "col-11 search-box-" + color }>
-              <input
-                placeholder="Search for course"
-                type="text"
-                value={this.state.value}
-                onChange={this.handleSearchChange}
-              />
+              <h1 className = "search-heading text-left text-md-center">Search.</h1>
+              <h6 className = "search-sub-text text-left text-md-center d-none d-md-block">
+              Find the station you are looking for according to the priorities you set.<br />
+              Search by name or location, filter according to your preferences.
+              </h6>
+              <h6 className = "search-sub-text text-left text-md-center d-block d-md-none">
+              We will try to find what you are looking for
+              </h6>
+              <div className = "search-bar-hold">
+                <div className = "col-12 col-md-8 offset-md-2 text-left text-md-center padding-remover">
+                  <input
+                    placeholder="Search for course"
+                    type="text"
+                    value={this.state.value}
+                    onChange={this.handleSearchChange}
+                    className = "home-search-bar"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -111,7 +124,7 @@ class Homed extends Component {
         </div>
         <div className = "container">
           <div className = "justify-content-center row row-contents d-flex d-lg-none">
-            <div className = "col-11 results-box mb-4">
+            <div className = "col-11 results-box mb-4 ">
             <SearchResults
                 value={this.state.value}
                 data={this.state.all}
