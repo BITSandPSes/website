@@ -34,6 +34,12 @@ const stationSchema = new mongoose.Schema({
       max: 10
     }
   },
+  industryDomain: {
+    type: String,
+  },
+  branches:[{
+    type: String
+  }],
   discussion: [{
     comment: {
       user: {

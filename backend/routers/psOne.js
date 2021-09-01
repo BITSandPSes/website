@@ -29,9 +29,18 @@ router.get('/api/1', async (req, res) => {
     queries.location = { $regex: new RegExp(req.query.location, 'i') };
   }
 
+  if (req.query.industryDomain) {
+    queries.industryDomain = { $regex: new RegExp(req.query.industryDomain, 'i') };
+  }
+
+  if (req.query.branch) {
+    const branches = req.req.query.tags.split(' ');
+    queries.branches = { $in: branches };
+}
+
   try {
     const stations = await Station.find(queries,
-      'name category field location cg slug',
+      'name category field location cg slug industryDomain branches',
       {
         limit: parseInt(req.query.limit),
         skip: parseInt(req.query.skip)
